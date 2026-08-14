@@ -1,0 +1,91 @@
+.cg-grid {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid #edebe9;
+  border-radius: 2px;
+  background: #ffffff;
+  color: #323130;
+  font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.cg-grid__table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.cg-grid__table .cg-grid__header-cell {
+  padding: 10px 12px !important;
+  background: #ffffff;
+  border-bottom: 1px solid #edebe9;
+  color: #605e5c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-align: left;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+
+.cg-grid__row:hover {
+  background: #f3f2f1;
+}
+
+.cg-grid__cell {  
+  padding-left: 16px !important;
+  border-bottom: 1px solid #edebe9;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cg-grid__cell--name {
+  font-weight: 400;
+}
+
+.cg-grid__header-cell.cg-grid__col--name,
+.cg-grid__cell.cg-grid__col--name {
+  padding-left: 16px !important;
+}
+
+.cg-grid__status {
+  font-weight: 600;
+}
+
+.cg-grid__status--active {
+  color: #107c10;
+}
+
+.cg-grid__status--inactive {
+  color: #a4262c;
+}
+
+.cg-grid__col--name {
+  width: 18%;
+}
+
+.cg-grid__col--company {
+  width: 16%;
+}
+
+.cg-grid__col--email {
+  width: 22%;
+}
+
+.cg-grid__col--phone {
+  width: 16%;
+}
+
+.cg-grid__col--age {
+  width: 8%;
+}
+
+.cg-grid__col--balance {
+  width: 12%;
+}
+
+.cg-grid__col--status {
+  width: 8%;
+}
