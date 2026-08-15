@@ -33,8 +33,16 @@ interface IImage {
   url: string;
 }
 
-type IGridCell = string | number | boolean | IEmailCell | IPosition | IImage;
-type IGridRow = [IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell];
+interface ICrmObject {
+  entityname: string;
+  id: string;
+  name?: string;
+}
+
+const crmUrl = "https://methods-automation.crm11.dynamics.com/";
+
+type IGridCell = string | number | boolean | IEmailCell | IPosition | IImage | ICrmObject;
+type IGridRow = [ IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell];
 
 type TCellTypeHint = "default" | "image";
 
@@ -78,6 +86,39 @@ const isPositionCell = (cellValue: IGridCell): cellValue is IPosition => {
   return isPositionObject(cellValue);
 };
 
+const IsCRMObjectCell = (cellValue: IGridCell): cellValue is ICrmObject => {
+  if (typeof cellValue !== "object" || cellValue === null || Array.isArray(cellValue)) {
+    return false;
+  }
+
+  const candidate = cellValue as unknown as Record<string, unknown>;
+  const rawEntityName = candidate.entityname ?? candidate.entityName;
+  return typeof rawEntityName === "string" && rawEntityName.trim().length > 0 && typeof candidate.id === "string" && candidate.id.trim().length > 0;
+};
+
+const createCrmObjectCell = (value: unknown): ICrmObject | null => {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return null;
+  }
+
+  const candidate = value as Record<string, unknown>;
+  const rawEntityName = candidate.entityname ?? candidate.entityName;
+
+  if (typeof rawEntityName !== "string" || rawEntityName.trim().length === 0 || typeof candidate.id !== "string" || candidate.id.trim().length === 0) {
+    return null;
+  }
+
+  return {
+    entityname: rawEntityName.trim(),
+    id: candidate.id.trim(),
+    name: typeof candidate.name === "string" ? candidate.name.trim() : undefined
+  };
+};
+
+const getCrmRecordUrl = (crmObjectCell: ICrmObject): string => {
+  return `${crmUrl}main.aspx?etn=${encodeURIComponent(crmObjectCell.entityname)}&pagetype=entityrecord&id=${encodeURIComponent(crmObjectCell.id)}`;
+};
+
 const getCellType = (value: unknown, hint: TCellTypeHint = "default"): IGridCell => {
   if (hint === "image") {
     if (typeof value === "string") {
@@ -89,6 +130,11 @@ const getCellType = (value: unknown, hint: TCellTypeHint = "default"): IGridCell
 
   if (isPositionObject(value)) {
     return value;
+  }
+
+  const crmObjectCell = createCrmObjectCell(value);
+  if (crmObjectCell) {
+    return crmObjectCell;
   }
 
   if (typeof value === "string") {
@@ -117,20 +163,25 @@ const getCellText = (cellValue: IGridCell): string => {
     return `${cellValue.latitude},${cellValue.longitude}`;
   }
 
+  if (IsCRMObjectCell(cellValue)) {
+    return cellValue.name && cellValue.name.length > 0 ? cellValue.name : "unknown";
+  }
+
   return String(cellValue);
 };
 
 const gridData: IGridRow[] = dummyData.map((item: IdDataRow) => {
   return [
     getCellType(item.picture, "image"),
-    getCellType(item.name),
-    getCellType(item.company),
+    getCellType(item.name),    
     getCellType(item.email),
+    getCellType(item.crmObject),
     getCellType(item.phone),
     getCellType(item.age),
     getCellType(item.balance),
     getCellType(item.isActive),
     getCellType(item.positioning)
+    
   ];
 });
 
@@ -175,6 +226,10 @@ const getSortValue = (row: IGridRow, columnIndex: number): string | number | boo
 
   if (isPositionCell(cellValue)) {
     return getCellText(cellValue);
+  }
+
+  if (IsCRMObjectCell(cellValue)) {
+    return cellValue.name && cellValue.name.length > 0 ? cellValue.name : "unknown";
   }
 
   return cellValue;
@@ -407,6 +462,17 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
                     ? <ImageCell imageCell={cellValue} altText={`${getCellText(row[1])} image`} />
                     : isEmailCell(cellValue)
                     ? <a className="cg-grid__cell-link" href={`mailto:${cellValue.value}`}>{cellValue.value}</a>
+                    : IsCRMObjectCell(cellValue)
+                      ? (
+                        <a
+                          className="cg-grid__cell-link"
+                          href={getCrmRecordUrl(cellValue)}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {cellValue.name && cellValue.name.length > 0 ? cellValue.name : "unknown"}
+                        </a>
+                      )
                     : isPositionCell(cellValue)
                       ? (
                         <a
