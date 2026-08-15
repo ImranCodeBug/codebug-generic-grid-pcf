@@ -57,12 +57,13 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
   } | null>(null);
   const [columnWidths, setColumnWidths] = React.useState<number[]>(() => getInitialColumnWidths(columns.length));
   const [sortState, setSortState] = React.useState<{ columnIndex: number; direction: TSortDirection } | null>(null);
+  const [currentPage, setCurrentPage] = React.useState<number>(1);
 
   React.useEffect(() => {
     setColumnWidths(getInitialColumnWidths(columns.length));
   }, [columns.length]);
 
-  const rows = React.useMemo(() => {
+  const sortedRows = React.useMemo(() => {
     if (!sortState) {
       return gridData;
     }
@@ -80,6 +81,27 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
 
     return sortState.direction === "ascending" ? sortedRows : sortedRows.reverse();
   }, [sortState]);
+
+  const isPagingEnabled = pageSize > 0;
+  const totalPages = isPagingEnabled ? Math.max(1, Math.ceil(sortedRows.length / pageSize)) : 1;
+
+  React.useEffect(() => {
+    if (!isPagingEnabled) {
+      setCurrentPage(1);
+      return;
+    }
+
+    setCurrentPage((previousPage) => Math.min(previousPage, totalPages));
+  }, [isPagingEnabled, totalPages]);
+
+  const rows = React.useMemo(() => {
+    if (!isPagingEnabled) {
+      return sortedRows;
+    }
+
+    const startIndex = (currentPage - 1) * pageSize;
+    return sortedRows.slice(startIndex, startIndex + pageSize);
+  }, [sortedRows, currentPage, pageSize, isPagingEnabled]);
 
   const handleResizeMouseMove = React.useCallback((event: MouseEvent) => {
     const dragState = dragStateRef.current;
@@ -149,6 +171,8 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
     if(isSortable === false) { 
       return;
     }
+
+    setCurrentPage(1);
     setSortState((currentSortState) => {
       if (currentSortState?.columnIndex === columnIndex) {
         return {
@@ -217,6 +241,47 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
           ))}
         </TableBody>
       </Table>
+      {isPagingEnabled ? (
+        <div className="cg-grid__pagination" role="navigation" aria-label="Pagination">
+          <button
+            type="button"
+            className="cg-grid__page-button cg-grid__page-button--nav"
+            onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
+            disabled={currentPage === 1}
+            aria-label="Go to previous page"
+          >
+            Previous
+          </button>
+          <div className="cg-grid__page-list">
+            {Array.from({ length: totalPages }, (_, index) => {
+              const pageNumber = index + 1;
+              const isCurrentPage = currentPage === pageNumber;
+
+              return (
+                <button
+                  key={pageNumber}
+                  type="button"
+                  className={isCurrentPage ? "cg-grid__page-button cg-grid__page-button--current" : "cg-grid__page-button"}
+                  onClick={() => setCurrentPage(pageNumber)}
+                  aria-current={isCurrentPage ? "page" : undefined}
+                  aria-label={`Go to page ${pageNumber}`}
+                >
+                  {pageNumber}
+                </button>
+              );
+            })}
+          </div>
+          <button
+            type="button"
+            className="cg-grid__page-button cg-grid__page-button--nav"
+            onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
+            disabled={currentPage === totalPages}
+            aria-label="Go to next page"
+          >
+            Next
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };
