@@ -18,7 +18,7 @@ interface IMainContainerComponentProps {
 
 type IdDataRow = (typeof dummyData)[number];
 
-type IGridRow = [string, string, string, string, number, string, string];
+type IGridRow = [string, string, string, string, number, string, boolean];
 
 const gridData: IGridRow[] = dummyData.map((item: IdDataRow) => {
   return [
@@ -28,7 +28,7 @@ const gridData: IGridRow[] = dummyData.map((item: IdDataRow) => {
     item.phone,
     item.age,
     item.balance,
-    item.isActive ? "Active" : "Inactive"
+    item.isActive 
   ];
 });
 
@@ -43,7 +43,7 @@ const getInitialColumnWidths = (columnCount: number): number[] => {
   return Array.from({ length: columnCount }, () => 100 / columnCount);
 };
 
-const getSortValue = (row: IGridRow, columnIndex: number): string | number => {
+const getSortValue = (row: IGridRow, columnIndex: number): string | number | boolean => {
   return row[columnIndex] ?? "";
 };
 
@@ -234,7 +234,7 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
                   className={columnIndex === 0 ? "cg-grid__cell cg-grid__cell--name" : "cg-grid__cell"}
                   style={getColumnWidthStyle(columnIndex)}
                 >
-                  {cellValue}
+                  {typeof cellValue === "boolean" ? (cellValue ? "Yes" : "No") : cellValue}
                 </TableCell>
               ))}
             </TableRow>
