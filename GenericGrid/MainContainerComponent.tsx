@@ -11,6 +11,8 @@ import dummyData from "./dummyData.json";
 
 interface IMainContainerComponentProps {
   name: string;
+  isSortable: boolean;
+  pageSize: number;
 }
 
 interface IGridRow {
@@ -62,7 +64,7 @@ const getSortValue = (row: IGridRow, columnKey: TSortColumnKey): string | number
   return row[columnKey];
 };
 
-const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = () => {
+const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = (props) => {
   const gridRef = React.useRef<HTMLDivElement | null>(null);
   const dragStateRef = React.useRef<{
     columnIndex: number;
@@ -157,6 +159,9 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
   };
 
   const handleHeaderClick = (columnKey: TSortColumnKey): void => {
+    if(props.isSortable === false) { 
+      return;
+    }
     setSortState((currentSortState) => {
       if (currentSortState?.column === columnKey) {
         return {

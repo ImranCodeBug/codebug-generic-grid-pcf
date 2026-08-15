@@ -33,9 +33,12 @@ export class GenericGrid implements ComponentFramework.ReactControl<IInputs, IOu
      * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
      * @returns ReactElement root react element for the control
      */
-    public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {    
+    public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
+        const isSortable = context.parameters.isSortable.raw === "1";    
+        const pageSize = context.parameters.pageSize.raw ?? 0;
+        const data = context.parameters.data.raw ?? "[]";
         return React.createElement(
-            MainContainerComponent, { name: "Audrey Chowdhury" }
+            MainContainerComponent, { name: data, isSortable: isSortable, pageSize: pageSize }
         );
     }
 
