@@ -32,9 +32,16 @@ const gridData: IGridRow[] = dummyData.map((item: IdDataRow) => {
   ];
 });
 
-const defaultColumnWidths = [14.285714, 14.285714, 14.285714, 14.285714, 14.285714, 14.285714, 14.285714];
 const minColumnWidthPx = 64;
 type TSortDirection = "ascending" | "descending";
+
+const getInitialColumnWidths = (columnCount: number): number[] => {
+  if (columnCount <= 0) {
+    return [];
+  }
+
+  return Array.from({ length: columnCount }, () => 100 / columnCount);
+};
 
 const getSortValue = (row: IGridRow, columnIndex: number): string | number => {
   return row[columnIndex] ?? "";
@@ -48,8 +55,12 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
     startWidths: number[];
     tableWidth: number;
   } | null>(null);
-  const [columnWidths, setColumnWidths] = React.useState<number[]>(defaultColumnWidths);
+  const [columnWidths, setColumnWidths] = React.useState<number[]>(() => getInitialColumnWidths(columns.length));
   const [sortState, setSortState] = React.useState<{ columnIndex: number; direction: TSortDirection } | null>(null);
+
+  React.useEffect(() => {
+    setColumnWidths(getInitialColumnWidths(columns.length));
+  }, [columns.length]);
 
   const rows = React.useMemo(() => {
     if (!sortState) {
@@ -193,17 +204,15 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
         <TableBody>
           {rows.map((row) => (
             <TableRow key={`${row[0]}-${row[2]}`} className="cg-grid__row">
-              <TableCell className="cg-grid__cell cg-grid__cell--name" style={getColumnWidthStyle(0)}>{row[0]}</TableCell>
-              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(1)}>{row[1]}</TableCell>
-              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(2)}>{row[2]}</TableCell>
-              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(3)}>{row[3]}</TableCell>
-              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(4)}>{row[4]}</TableCell>
-              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(5)}>{row[5]}</TableCell>
-              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(6)}>
-                <span className={row[6] === "Active" ? "cg-grid__status cg-grid__status--active" : "cg-grid__status cg-grid__status--inactive"}>
-                  {row[6]}
-                </span>
-              </TableCell>
+              {row.map((cellValue, columnIndex) => (
+                <TableCell
+                  key={`${row[0]}-${columnIndex}`}
+                  className={columnIndex === 0 ? "cg-grid__cell cg-grid__cell--name" : "cg-grid__cell"}
+                  style={getColumnWidthStyle(columnIndex)}
+                >
+                  {cellValue}
+                </TableCell>
+              ))}
             </TableRow>
           ))}
         </TableBody>
