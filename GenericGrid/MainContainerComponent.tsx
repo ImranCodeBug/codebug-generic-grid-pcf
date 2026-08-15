@@ -10,7 +10,8 @@ import * as React from "react";
 import dummyData from "./dummyData.json";
 
 interface IMainContainerComponentProps {
-  name: string;
+  data: string;
+  columns: string[];
   isSortable: boolean;
   pageSize: number;
 }
@@ -45,8 +46,6 @@ const defaultColumnWidths = [14.285714, 14.285714, 14.285714, 14.285714, 14.2857
 const minColumnWidthPx = 64;
 type TSortDirection = "ascending" | "descending";
 
-const columns = ["Name", "Company", "Email", "Phone", "Age", "Balance", "Status"];
-
 const getSortValue = (row: IGridRow, columnIndex: number): string | number => {
   switch (columnIndex) {
     case 0:
@@ -68,7 +67,7 @@ const getSortValue = (row: IGridRow, columnIndex: number): string | number => {
   }
 };
 
-const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = (props) => {
+const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = ({ data, columns, isSortable, pageSize }) => {
   const gridRef = React.useRef<HTMLDivElement | null>(null);
   const dragStateRef = React.useRef<{
     columnIndex: number;
@@ -163,7 +162,7 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
   };
 
   const handleHeaderClick = (columnIndex: number): void => {
-    if(props.isSortable === false) { 
+    if(isSortable === false) { 
       return;
     }
     setSortState((currentSortState) => {

@@ -34,11 +34,13 @@ export class GenericGrid implements ComponentFramework.ReactControl<IInputs, IOu
      * @returns ReactElement root react element for the control
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-        const isSortable = context.parameters.isSortable.raw === "1";    
+        const isSortable = context.parameters.isSortable.raw === "1";
+        const columnHeadersRaw = context.parameters.columnHeaders.raw ?? "[]";
+        const columns = JSON.parse(columnHeadersRaw) as string[];
         const pageSize = context.parameters.pageSize.raw ?? 0;
         const data = context.parameters.data.raw ?? "[]";
         return React.createElement(
-            MainContainerComponent, { name: data, isSortable: isSortable, pageSize: pageSize }
+            MainContainerComponent, { data: data, columns: columns, isSortable: isSortable, pageSize: pageSize }
         );
     }
 
