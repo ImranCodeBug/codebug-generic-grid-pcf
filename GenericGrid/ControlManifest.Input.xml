@@ -18,7 +18,13 @@
       -->
     </external-service-usage>
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
-    <property name="sampleProperty" display-name-key="Property_Display_Key" description-key="Property_Desc_Key" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="data" display-name-key="Data" description-key="Json Data; can have 1,048,576 characters" of-type="Multiple" usage="bound" required="true" />
+    <property name="isSortable" display-name-key="Sort setting" description-key="Defines if the table is sortable"  of-type="Enum" usage="input" required="false" >
+      <value name="No" display-name-key="No" description-key="Not sortable.">0</value>
+      <value name="Yes" display-name-key="Yes" description-key="Sortable.">1</value>
+    </property>
+    <property name="pageSize" display-name-key="Page Size" description-key="Defines the number of rows per page in the table. Default as 0 as in no paging" of-type="Whole.None" default-value="0" usage="input" required="false" />
+
     <!--
       Property node's of-type attribute can be of-type-group attribute.
       Example:
