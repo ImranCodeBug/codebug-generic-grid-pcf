@@ -1,6 +1,7 @@
 .cg-grid {
   width: 100%;
-  overflow: hidden;
+  max-height: 100%;
+  overflow: auto;
   border: 1px solid #edebe9;
   border-radius: 2px;
   background: #ffffff;
@@ -16,7 +17,9 @@
 }
 
 .cg-grid__table .cg-grid__header-cell {
+  position: relative;
   padding: 10px 12px !important;
+  padding-right: 18px !important;
   background: #ffffff;
   border-bottom: 1px solid #edebe9;
   color: #605e5c;
@@ -26,6 +29,69 @@
   text-align: left;
   white-space: nowrap;
   text-transform: uppercase;
+}
+
+.cg-grid__table .cg-grid__header-cell:first-child,
+.cg-grid__table .cg-grid__cell:first-child {
+  padding-left: 16px !important;
+}
+
+.cg-grid__header-content {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.cg-grid__sort-button {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  text-align: left;
+}
+
+.cg-grid__resize-handle {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  cursor: col-resize;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 10px;
+  height: 100%;
+  padding: 0;
+}
+
+.cg-grid__resize-handle:hover::after,
+.cg-grid__resize-handle:active::after {
+  background: #605e5c;
+}
+
+.cg-grid__resize-handle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: transparent;
+}
+
+.cg-grid__sort-label {
+  display: inline-block;
+}
+
+.cg-grid__sort-icon {
+  flex: 0 0 auto;
+  font-size: 12px;
+  line-height: 1;
 }
 
 .cg-grid__row:hover {
@@ -45,11 +111,6 @@
   font-weight: 400;
 }
 
-.cg-grid__header-cell.cg-grid__col--name,
-.cg-grid__cell.cg-grid__col--name {
-  padding-left: 16px !important;
-}
-
 .cg-grid__status {
   font-weight: 600;
 }
@@ -62,30 +123,3 @@
   color: #a4262c;
 }
 
-.cg-grid__col--name {
-  width: 18%;
-}
-
-.cg-grid__col--company {
-  width: 16%;
-}
-
-.cg-grid__col--email {
-  width: 22%;
-}
-
-.cg-grid__col--phone {
-  width: 16%;
-}
-
-.cg-grid__col--age {
-  width: 8%;
-}
-
-.cg-grid__col--balance {
-  width: 12%;
-}
-
-.cg-grid__col--status {
-  width: 8%;
-}

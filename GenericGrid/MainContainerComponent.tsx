@@ -39,41 +39,186 @@ const gridData: IGridRow[] = dummyData.map((item: IDummyDataRow) => {
   };
 });
 
-const columns: { key: keyof IGridRow | "status"; label: string; columnClass: string }[] = [
-  { key: "name", label: "Name", columnClass: "cg-grid__col--name" },
-  { key: "company", label: "Company", columnClass: "cg-grid__col--company" },
-  { key: "email", label: "Email", columnClass: "cg-grid__col--email" },
-  { key: "phone", label: "Phone", columnClass: "cg-grid__col--phone" },
-  { key: "age", label: "Age", columnClass: "cg-grid__col--age" },
-  { key: "balance", label: "Balance", columnClass: "cg-grid__col--balance" },
-  { key: "status", label: "Status", columnClass: "cg-grid__col--status" }
+const defaultColumnWidths = [14.285714, 14.285714, 14.285714, 14.285714, 14.285714, 14.285714, 14.285714];
+const minColumnWidthPx = 64;
+type TSortDirection = "ascending" | "descending";
+type TSortColumnKey = "name" | "company" | "email" | "phone" | "age" | "balance" | "status";
+
+const columns: { key: TSortColumnKey; label: string }[] = [
+  { key: "name", label: "Name" },
+  { key: "company", label: "Company" },
+  { key: "email", label: "Email" },
+  { key: "phone", label: "Phone" },
+  { key: "age", label: "Age" },
+  { key: "balance", label: "Balance" },
+  { key: "status", label: "Status" }
 ];
 
+const getSortValue = (row: IGridRow, columnKey: TSortColumnKey): string | number => {
+  if (columnKey === "status") {
+    return row.isActive ? "Active" : "Inactive";
+  }
+
+  return row[columnKey];
+};
+
 const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = () => {
-  const rows = React.useMemo(() => gridData.slice(0, 12), []);
+  const gridRef = React.useRef<HTMLDivElement | null>(null);
+  const dragStateRef = React.useRef<{
+    columnIndex: number;
+    startX: number;
+    startWidths: number[];
+    tableWidth: number;
+  } | null>(null);
+  const [columnWidths, setColumnWidths] = React.useState<number[]>(defaultColumnWidths);
+  const [sortState, setSortState] = React.useState<{ column: TSortColumnKey; direction: TSortDirection } | null>(null);
+
+  const rows = React.useMemo(() => {
+    if (!sortState) {
+      return gridData;
+    }
+
+    const sortedRows = [...gridData].sort((leftRow, rightRow) => {
+      const leftValue = getSortValue(leftRow, sortState.column);
+      const rightValue = getSortValue(rightRow, sortState.column);
+
+      if (typeof leftValue === "number" && typeof rightValue === "number") {
+        return leftValue - rightValue;
+      }
+
+      return String(leftValue).localeCompare(String(rightValue));
+    });
+
+    return sortState.direction === "ascending" ? sortedRows : sortedRows.reverse();
+  }, [sortState]);
+
+  const handleResizeMouseMove = React.useCallback((event: MouseEvent) => {
+    const dragState = dragStateRef.current;
+
+    if (!dragState) {
+      return;
+    }
+
+    const deltaPercent = ((event.clientX - dragState.startX) / dragState.tableWidth) * 100;
+    const minWidthPercent = (minColumnWidthPx / dragState.tableWidth) * 100;
+    const nextWidths = [...dragState.startWidths];
+    const currentIndex = dragState.columnIndex;
+    const nextIndex = currentIndex + 1;
+    const proposedCurrentWidth = nextWidths[currentIndex] + deltaPercent;
+    const proposedNextWidth = nextWidths[nextIndex] - deltaPercent;
+
+    if (proposedCurrentWidth < minWidthPercent || proposedNextWidth < minWidthPercent) {
+      return;
+    }
+
+    nextWidths[currentIndex] = proposedCurrentWidth;
+    nextWidths[nextIndex] = proposedNextWidth;
+    setColumnWidths(nextWidths);
+  }, []);
+
+  const stopResize = React.useCallback(() => {
+    dragStateRef.current = null;
+    window.removeEventListener("mousemove", handleResizeMouseMove);
+    window.removeEventListener("mouseup", stopResize);
+  }, [handleResizeMouseMove]);
+
+  React.useEffect(() => {
+    return () => {
+      window.removeEventListener("mousemove", handleResizeMouseMove);
+      window.removeEventListener("mouseup", stopResize);
+    };
+  }, [handleResizeMouseMove, stopResize]);
+
+  const handleResizeMouseDown = (event: React.MouseEvent<HTMLButtonElement>, columnIndex: number): void => {
+    const tableWidth = gridRef.current?.getBoundingClientRect().width ?? 0;
+
+    if (tableWidth <= 0) {
+      return;
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    dragStateRef.current = {
+      columnIndex,
+      startX: event.clientX,
+      startWidths: columnWidths,
+      tableWidth
+    };
+
+    window.addEventListener("mousemove", handleResizeMouseMove);
+    window.addEventListener("mouseup", stopResize);
+  };
+
+  const getColumnWidthStyle = (columnIndex: number): React.CSSProperties => {
+    return {
+      width: `${columnWidths[columnIndex]}%`
+    };
+  };
+
+  const handleHeaderClick = (columnKey: TSortColumnKey): void => {
+    setSortState((currentSortState) => {
+      if (currentSortState?.column === columnKey) {
+        return {
+          column: columnKey,
+          direction: currentSortState.direction === "ascending" ? "descending" : "ascending"
+        };
+      }
+
+      return {
+        column: columnKey,
+        direction: "ascending"
+      };
+    });
+  };
 
   return (
-    <div className="cg-grid">
+    <div className="cg-grid" ref={gridRef}>
       <Table aria-label="Dynamics style subgrid" className="cg-grid__table">
         <TableHeader>
           <TableRow>
-            {columns.map((column) => (
-              <TableHeaderCell key={column.key} className={`cg-grid__header-cell ${column.columnClass}`}>
-                {column.label}
-              </TableHeaderCell>
-            ))}
+            {columns.map((column, columnIndex) => {
+              const isResizable = columnIndex < columns.length - 1;
+              const isSortedColumn = sortState?.column === column.key;
+              const sortGlyph = sortState?.direction === "ascending" ? "▲" : "▼";
+
+              return (
+                <TableHeaderCell key={column.key} className="cg-grid__header-cell" style={getColumnWidthStyle(columnIndex)}>
+                  <div className="cg-grid__header-content">
+                    <button
+                      type="button"
+                      className="cg-grid__sort-button"
+                      onClick={() => handleHeaderClick(column.key)}
+                      aria-label={`Sort by ${column.label}`}
+                    >
+                      <span className="cg-grid__sort-label">{column.label}</span>
+                      {isSortedColumn ? <span className="cg-grid__sort-icon" aria-hidden="true">{sortGlyph}</span> : null}
+                    </button>
+                  </div>
+                  {isResizable ? (
+                    <button
+                      type="button"
+                      className="cg-grid__resize-handle"
+                      onMouseDown={(event) => handleResizeMouseDown(event, columnIndex)}
+                      aria-label={`Resize ${column.label} column`}
+                      tabIndex={-1}
+                    />
+                  ) : null}
+                </TableHeaderCell>
+              );
+            })}
           </TableRow>
         </TableHeader>
         <TableBody>
           {rows.map((row) => (
             <TableRow key={row.guid} className="cg-grid__row">
-              <TableCell className="cg-grid__cell cg-grid__cell--name cg-grid__col--name">{row.name}</TableCell>
-              <TableCell className="cg-grid__cell cg-grid__col--company">{row.company}</TableCell>
-              <TableCell className="cg-grid__cell cg-grid__col--email">{row.email}</TableCell>
-              <TableCell className="cg-grid__cell cg-grid__col--phone">{row.phone}</TableCell>
-              <TableCell className="cg-grid__cell cg-grid__col--age">{row.age}</TableCell>
-              <TableCell className="cg-grid__cell cg-grid__col--balance">{row.balance}</TableCell>
-              <TableCell className="cg-grid__cell cg-grid__col--status">
+              <TableCell className="cg-grid__cell cg-grid__cell--name" style={getColumnWidthStyle(0)}>{row.name}</TableCell>
+              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(1)}>{row.company}</TableCell>
+              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(2)}>{row.email}</TableCell>
+              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(3)}>{row.phone}</TableCell>
+              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(4)}>{row.age}</TableCell>
+              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(5)}>{row.balance}</TableCell>
+              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(6)}>
                 <span className={row.isActive ? "cg-grid__status cg-grid__status--active" : "cg-grid__status cg-grid__status--inactive"}>
                   {row.isActive ? "Active" : "Inactive"}
                 </span>
