@@ -44,24 +44,28 @@ const gridData: IGridRow[] = dummyData.map((item: IDummyDataRow) => {
 const defaultColumnWidths = [14.285714, 14.285714, 14.285714, 14.285714, 14.285714, 14.285714, 14.285714];
 const minColumnWidthPx = 64;
 type TSortDirection = "ascending" | "descending";
-type TSortColumnKey = "name" | "company" | "email" | "phone" | "age" | "balance" | "status";
 
-const columns: { key: TSortColumnKey; label: string }[] = [
-  { key: "name", label: "Name" },
-  { key: "company", label: "Company" },
-  { key: "email", label: "Email" },
-  { key: "phone", label: "Phone" },
-  { key: "age", label: "Age" },
-  { key: "balance", label: "Balance" },
-  { key: "status", label: "Status" }
-];
+const columns = ["Name", "Company", "Email", "Phone", "Age", "Balance", "Status"];
 
-const getSortValue = (row: IGridRow, columnKey: TSortColumnKey): string | number => {
-  if (columnKey === "status") {
-    return row.isActive ? "Active" : "Inactive";
+const getSortValue = (row: IGridRow, columnIndex: number): string | number => {
+  switch (columnIndex) {
+    case 0:
+      return row.name;
+    case 1:
+      return row.company;
+    case 2:
+      return row.email;
+    case 3:
+      return row.phone;
+    case 4:
+      return row.age;
+    case 5:
+      return row.balance;
+    case 6:
+      return row.isActive ? "Active" : "Inactive";
+    default:
+      return "";
   }
-
-  return row[columnKey];
 };
 
 const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = (props) => {
@@ -73,7 +77,7 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
     tableWidth: number;
   } | null>(null);
   const [columnWidths, setColumnWidths] = React.useState<number[]>(defaultColumnWidths);
-  const [sortState, setSortState] = React.useState<{ column: TSortColumnKey; direction: TSortDirection } | null>(null);
+  const [sortState, setSortState] = React.useState<{ columnIndex: number; direction: TSortDirection } | null>(null);
 
   const rows = React.useMemo(() => {
     if (!sortState) {
@@ -81,8 +85,8 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
     }
 
     const sortedRows = [...gridData].sort((leftRow, rightRow) => {
-      const leftValue = getSortValue(leftRow, sortState.column);
-      const rightValue = getSortValue(rightRow, sortState.column);
+      const leftValue = getSortValue(leftRow, sortState.columnIndex);
+      const rightValue = getSortValue(rightRow, sortState.columnIndex);
 
       if (typeof leftValue === "number" && typeof rightValue === "number") {
         return leftValue - rightValue;
@@ -158,20 +162,20 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
     };
   };
 
-  const handleHeaderClick = (columnKey: TSortColumnKey): void => {
+  const handleHeaderClick = (columnIndex: number): void => {
     if(props.isSortable === false) { 
       return;
     }
     setSortState((currentSortState) => {
-      if (currentSortState?.column === columnKey) {
+      if (currentSortState?.columnIndex === columnIndex) {
         return {
-          column: columnKey,
+          columnIndex,
           direction: currentSortState.direction === "ascending" ? "descending" : "ascending"
         };
       }
 
       return {
-        column: columnKey,
+        columnIndex,
         direction: "ascending"
       };
     });
@@ -184,19 +188,19 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
           <TableRow>
             {columns.map((column, columnIndex) => {
               const isResizable = columnIndex < columns.length - 1;
-              const isSortedColumn = sortState?.column === column.key;
+              const isSortedColumn = sortState?.columnIndex === columnIndex;
               const sortGlyph = sortState?.direction === "ascending" ? "▲" : "▼";
 
               return (
-                <TableHeaderCell key={column.key} className="cg-grid__header-cell" style={getColumnWidthStyle(columnIndex)}>
+                <TableHeaderCell key={column} className="cg-grid__header-cell" style={getColumnWidthStyle(columnIndex)}>
                   <div className="cg-grid__header-content">
                     <button
                       type="button"
                       className="cg-grid__sort-button"
-                      onClick={() => handleHeaderClick(column.key)}
-                      aria-label={`Sort by ${column.label}`}
+                      onClick={() => handleHeaderClick(columnIndex)}
+                      aria-label={`Sort by ${column}`}
                     >
-                      <span className="cg-grid__sort-label">{column.label}</span>
+                      <span className="cg-grid__sort-label">{column}</span>
                       {isSortedColumn ? <span className="cg-grid__sort-icon" aria-hidden="true">{sortGlyph}</span> : null}
                     </button>
                   </div>
@@ -205,7 +209,7 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
                       type="button"
                       className="cg-grid__resize-handle"
                       onMouseDown={(event) => handleResizeMouseDown(event, columnIndex)}
-                      aria-label={`Resize ${column.label} column`}
+                      aria-label={`Resize ${column} column`}
                       tabIndex={-1}
                     />
                   ) : null}
