@@ -18,13 +18,31 @@ interface IMainContainerComponentProps {
 
 type IdDataRow = (typeof dummyData)[number];
 
-type IGridRow = [string, string, string, string, number, string, boolean];
+interface IEmailCell {
+  kind: "email";
+  value: string;
+}
+
+type IGridCell = string | number | boolean | IEmailCell;
+
+const createEmailCell = (value: string): IEmailCell => {
+  return {
+    kind: "email",
+    value
+  };
+};
+
+const isEmailCell = (cellValue: IGridCell): cellValue is IEmailCell => {
+  return typeof cellValue === "object" && cellValue !== null && cellValue.kind === "email";
+};
+
+type IGridRow = [string, string, IEmailCell, string, number, string, boolean];
 
 const gridData: IGridRow[] = dummyData.map((item: IdDataRow) => {
   return [
     item.name,
     item.company,
-    item.email,
+    createEmailCell(item.email),
     item.phone,
     item.age,
     item.balance,
@@ -44,7 +62,17 @@ const getInitialColumnWidths = (columnCount: number): number[] => {
 };
 
 const getSortValue = (row: IGridRow, columnIndex: number): string | number | boolean => {
-  return row[columnIndex] ?? "";
+  const cellValue = row[columnIndex];
+
+  if (cellValue === undefined) {
+    return "";
+  }
+
+  if (isEmailCell(cellValue)) {
+    return cellValue.value;
+  }
+
+  return cellValue;
 };
 
 const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = ({ data, columns, isSortable, pageSize }) => {
@@ -227,14 +255,16 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
         </TableHeader>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={`${row[0]}-${row[2]}`} className="cg-grid__row">
+            <TableRow key={`${row[0]}-${row[2].value}`} className="cg-grid__row">
               {row.map((cellValue, columnIndex) => (
                 <TableCell
                   key={`${row[0]}-${columnIndex}`}
                   className={columnIndex === 0 ? "cg-grid__cell cg-grid__cell--name" : "cg-grid__cell"}
                   style={getColumnWidthStyle(columnIndex)}
                 >
-                  {typeof cellValue === "boolean" ? (cellValue ? "Yes" : "No") : cellValue}
+                  {isEmailCell(cellValue)
+                    ? <a className="cg-grid__cell-link" href={`mailto:${cellValue.value}`}>{cellValue.value}</a>
+                    : typeof cellValue === "boolean" ? (cellValue ? "Yes" : "No") : cellValue}
                 </TableCell>
               ))}
             </TableRow>

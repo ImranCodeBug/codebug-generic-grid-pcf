@@ -13,8 +13,6 @@
     "phone": "+1 (927) 453-2840",
     "address": "115 Voorhies Avenue, Lawrence, Georgia, 8400",
     "about": "Pariatur occaecat nisi ullamco consequat esse proident velit cupidatat adipisicing ad cillum occaecat. Esse deserunt dolore laboris culpa exercitation pariatur laboris elit culpa nulla ullamco proident irure. Aliqua cillum voluptate et dolore ad excepteur dolor est consectetur consectetur culpa duis laboris laboris. Duis mollit sint culpa aliquip reprehenderit consectetur. Nisi nisi ut nulla ea aute labore adipisicing. Fugiat voluptate qui ipsum occaecat sit. Occaecat ut veniam velit excepteur.\r\n",
-    "latitude": -28.13396,
-    "longitude": -12.030327,
     "tags": [
       "ipsum",
       "cillum",
@@ -23,7 +21,11 @@
       "magna",
       "eiusmod",
       "consectetur"
-    ]
+    ],
+    "positioning": {
+      "latitude": -28.13396,
+      "longitude": -12.030327
+    }
   },
   {
     "index": 1,
@@ -39,8 +41,6 @@
     "phone": "+1 (967) 517-3250",
     "address": "187 Forrest Street, Kempton, Virgin Islands, 6657",
     "about": "Velit consectetur velit pariatur proident duis quis ipsum anim excepteur sit amet anim. Anim et aliqua laboris duis veniam qui voluptate ex nulla ullamco eiusmod cillum laboris. Excepteur duis ex ut aliquip.\r\n",
-    "latitude": -30.780822,
-    "longitude": 149.116196,
     "tags": [
       "elit",
       "magna",
@@ -49,7 +49,11 @@
       "ad",
       "adipisicing",
       "adipisicing"
-    ]
+    ],
+    "positioning": {
+      "latitude": -30.780822,
+      "longitude": 149.116196
+    }
   },
   {
     "index": 2,
@@ -65,8 +69,6 @@
     "phone": "+1 (958) 577-3620",
     "address": "150 Myrtle Avenue, Sardis, District Of Columbia, 4040",
     "about": "Esse ex cupidatat mollit eu officia laborum elit consectetur consectetur nostrud Lorem veniam et voluptate. Laborum qui proident nostrud in magna enim quis dolore veniam dolor mollit cillum aute. Adipisicing mollit nisi est sunt elit cupidatat anim Lorem esse consectetur pariatur est consequat. Et labore cupidatat tempor cupidatat dolore esse incididunt ex commodo aute sit.\r\n",
-    "latitude": 38.470728,
-    "longitude": -140.99096,
     "tags": [
       "irure",
       "tempor",
@@ -75,7 +77,11 @@
       "sunt",
       "aliquip",
       "esse"
-    ]
+    ],
+    "positioning": {
+      "latitude": 38.470728,
+      "longitude": -140.99096
+    }
   },
   {
     "index": 3,
@@ -91,8 +97,6 @@
     "phone": "+1 (894) 552-3812",
     "address": "985 Vernon Avenue, Nelson, Oregon, 5571",
     "about": "Minim cillum consequat tempor incididunt. Proident fugiat deserunt nostrud ullamco exercitation. Quis id amet minim laborum deserunt dolore elit laborum tempor aliqua sint cillum et sunt. Non veniam incididunt occaecat esse Lorem incididunt dolore commodo nostrud. Aute non enim tempor reprehenderit. Eu exercitation mollit enim magna et elit anim reprehenderit ea dolore quis est ullamco. Reprehenderit officia sint veniam adipisicing excepteur cillum et minim.\r\n",
-    "latitude": 1.489003,
-    "longitude": 160.585197,
     "tags": [
       "anim",
       "tempor",
@@ -101,7 +105,11 @@
       "enim",
       "in",
       "mollit"
-    ]
+    ],
+    "positioning": {
+      "latitude": 1.489003,
+      "longitude": 160.585197
+    }
   },
   {
     "index": 4,
@@ -117,8 +125,6 @@
     "phone": "+1 (891) 427-3427",
     "address": "187 Anthony Street, Alleghenyville, Kentucky, 8550",
     "about": "In excepteur deserunt cillum cillum officia eu incididunt culpa sint non fugiat. Sint occaecat ea occaecat voluptate magna aliqua proident aliqua. Cillum reprehenderit adipisicing minim est ut in incididunt ea Lorem exercitation laborum. Velit commodo eiusmod ullamco eu dolore do sunt ullamco elit tempor voluptate sunt incididunt ea. Officia est laborum laborum laboris ipsum consectetur id laborum labore aute consequat Lorem ea.\r\n",
-    "latitude": 8.500811,
-    "longitude": 76.296796,
     "tags": [
       "non",
       "cupidatat",
@@ -127,7 +133,11 @@
       "anim",
       "laboris",
       "sit"
-    ]
+    ],
+    "positioning": {
+      "latitude": 8.500811,
+      "longitude": 76.296796
+    }
   },
   {
     "index": 5,
@@ -143,8 +153,6 @@
     "phone": "+1 (870) 491-2291",
     "address": "451 Willmohr Street, Motley, Pennsylvania, 4677",
     "about": "Mollit Lorem amet irure ex sunt irure sint. Ad velit duis quis cupidatat. Fugiat veniam sunt sit ullamco id nulla. Anim laborum officia ipsum enim adipisicing magna pariatur.\r\n",
-    "latitude": -58.080034,
-    "longitude": -74.641753,
     "tags": [
       "ullamco",
       "excepteur",
@@ -153,7 +161,11 @@
       "amet",
       "aute",
       "labore"
-    ]
+    ],
+    "positioning": {
+      "latitude": -58.080034,
+      "longitude": -74.641753
+    }
   },
   {
     "index": 6,
@@ -169,8 +181,6 @@
     "phone": "+1 (925) 449-2304",
     "address": "779 Colin Place, Dowling, West Virginia, 166",
     "about": "Culpa officia eiusmod ad culpa excepteur reprehenderit quis. Et nulla pariatur elit magna ipsum. Dolor ea laboris nulla mollit veniam amet ipsum non eu. Dolor et veniam consectetur Lorem id. In magna qui elit culpa officia minim commodo Lorem anim cupidatat ea tempor voluptate.\r\n",
-    "latitude": -78.782271,
-    "longitude": -84.183591,
     "tags": [
       "reprehenderit",
       "anim",
@@ -179,7 +189,11 @@
       "labore",
       "ullamco",
       "ea"
-    ]
+    ],
+    "positioning": {
+      "latitude": -78.782271,
+      "longitude": -84.183591
+    }
   },
   {
     "index": 7,
@@ -195,8 +209,6 @@
     "phone": "+1 (887) 469-3204",
     "address": "872 Ryder Avenue, Glenville, Northern Mariana Islands, 6248",
     "about": "Reprehenderit elit labore sunt anim sint esse commodo. Do velit nisi voluptate ex velit consequat. Consequat sunt et culpa officia adipisicing nostrud excepteur dolor culpa ad.\r\n",
-    "latitude": -33.010799,
-    "longitude": 69.927864,
     "tags": [
       "irure",
       "eu",
@@ -205,7 +217,11 @@
       "nulla",
       "consequat",
       "esse"
-    ]
+    ],
+    "positioning": {
+      "latitude": -33.010799,
+      "longitude": 69.927864
+    }
   },
   {
     "index": 8,
@@ -221,8 +237,6 @@
     "phone": "+1 (806) 469-2258",
     "address": "297 Degraw Street, Titanic, South Dakota, 8243",
     "about": "Excepteur fugiat mollit ea Lorem amet irure duis dolor excepteur commodo ad ipsum cupidatat pariatur. Aliquip laboris culpa sit officia laboris ea veniam amet eiusmod occaecat nisi quis ex. Amet non consequat mollit irure. Tempor et magna exercitation sit ex labore qui eiusmod proident qui sit laboris est exercitation. Sunt elit cillum incididunt dolor officia.\r\n",
-    "latitude": 56.519997,
-    "longitude": -94.694073,
     "tags": [
       "non",
       "do",
@@ -231,7 +245,11 @@
       "nulla",
       "in",
       "quis"
-    ]
+    ],
+    "positioning": {
+      "latitude": 56.519997,
+      "longitude": -94.694073
+    }
   },
   {
     "index": 9,
@@ -247,8 +265,6 @@
     "phone": "+1 (803) 444-3215",
     "address": "935 Louisiana Avenue, Kenmar, Federated States Of Micronesia, 9587",
     "about": "Aliquip aliqua esse proident quis aliquip velit enim do laborum reprehenderit dolor id voluptate. Mollit proident aliqua occaecat minim amet Lorem eu anim in minim pariatur sint proident proident. Deserunt cillum tempor do qui nulla enim laboris labore aute culpa aute. Adipisicing irure ex sunt incididunt velit magna irure incididunt anim ut et consequat voluptate. Laboris magna Lorem commodo ea qui dolore et non proident mollit exercitation eu mollit. Ad aliqua nulla fugiat culpa deserunt in dolor. Et magna anim deserunt ex.\r\n",
-    "latitude": 1.30101,
-    "longitude": 30.361622,
     "tags": [
       "mollit",
       "cillum",
@@ -257,7 +273,11 @@
       "non",
       "cillum",
       "quis"
-    ]
+    ],
+    "positioning": {
+      "latitude": 1.30101,
+      "longitude": 30.361622
+    }
   },
   {
     "index": 10,
@@ -273,8 +293,6 @@
     "phone": "+1 (964) 475-3436",
     "address": "947 Rogers Avenue, Sunriver, Nebraska, 9869",
     "about": "Cupidatat excepteur adipisicing adipisicing nulla quis aliqua magna ullamco. Non officia ea nostrud sit ea. Ullamco incididunt ex in pariatur ipsum eiusmod in magna deserunt. Elit reprehenderit est cillum cupidatat reprehenderit officia sit Lorem dolore do id magna dolor exercitation.\r\n",
-    "latitude": -82.086587,
-    "longitude": -11.121279,
     "tags": [
       "pariatur",
       "sit",
@@ -283,7 +301,11 @@
       "magna",
       "eu",
       "cupidatat"
-    ]
+    ],
+    "positioning": {
+      "latitude": -82.086587,
+      "longitude": -11.121279
+    }
   },
   {
     "index": 11,
@@ -299,8 +321,6 @@
     "phone": "+1 (948) 572-3784",
     "address": "471 Lincoln Avenue, Datil, Louisiana, 6739",
     "about": "Irure proident irure aliquip deserunt aute reprehenderit incididunt minim. Dolore esse in dolor sit ipsum tempor ea fugiat deserunt. Excepteur ipsum ullamco irure aliquip eu sunt fugiat aute.\r\n",
-    "latitude": -24.343656,
-    "longitude": 164.002243,
     "tags": [
       "duis",
       "laboris",
@@ -309,7 +329,11 @@
       "dolor",
       "aliquip",
       "velit"
-    ]
+    ],
+    "positioning": {
+      "latitude": -24.343656,
+      "longitude": 164.002243
+    }
   },
   {
     "index": 12,
@@ -325,8 +349,6 @@
     "phone": "+1 (872) 446-2723",
     "address": "906 Seeley Street, Fivepointville, Palau, 5482",
     "about": "Ut eu id non do aliqua ad esse in. Aliqua ad voluptate qui sunt excepteur qui. Officia cillum reprehenderit cillum labore nulla. Sit irure nulla id cupidatat labore eu labore id do laborum. Sint cillum irure officia qui excepteur elit labore in.\r\n",
-    "latitude": -32.859361,
-    "longitude": -128.61396,
     "tags": [
       "nulla",
       "consequat",
@@ -335,7 +357,11 @@
       "aliqua",
       "ad",
       "eu"
-    ]
+    ],
+    "positioning": {
+      "latitude": -32.859361,
+      "longitude": -128.61396
+    }
   },
   {
     "index": 13,
@@ -351,8 +377,6 @@
     "phone": "+1 (981) 570-3872",
     "address": "527 Richards Street, Bellamy, Wyoming, 2394",
     "about": "Ad fugiat magna do sunt minim. Nostrud excepteur minim labore voluptate esse cupidatat cillum amet irure anim. Amet commodo commodo occaecat magna non consequat Lorem ipsum anim amet voluptate tempor labore eu. Nostrud sint id culpa ipsum non deserunt irure in tempor eiusmod excepteur culpa. Id do id minim est eiusmod do tempor ut excepteur sit adipisicing eu consectetur consectetur. Culpa voluptate adipisicing duis mollit ex minim laboris.\r\n",
-    "latitude": -32.872122,
-    "longitude": -32.310288,
     "tags": [
       "nostrud",
       "amet",
@@ -361,7 +385,11 @@
       "aliqua",
       "anim",
       "minim"
-    ]
+    ],
+    "positioning": {
+      "latitude": -32.872122,
+      "longitude": -32.310288
+    }
   },
   {
     "index": 14,
@@ -377,8 +405,6 @@
     "phone": "+1 (955) 575-2364",
     "address": "879 Georgia Avenue, Trinway, California, 8652",
     "about": "Magna enim dolor aute aute quis irure. Tempor sunt proident in magna duis. Nostrud aliquip dolore et elit. Minim sint ea id veniam enim aute tempor ex anim nostrud irure. Qui nisi ut enim et pariatur incididunt ullamco non cupidatat cupidatat.\r\n",
-    "latitude": -83.7703,
-    "longitude": 171.652987,
     "tags": [
       "officia",
       "dolore",
@@ -387,7 +413,11 @@
       "mollit",
       "adipisicing",
       "qui"
-    ]
+    ],
+    "positioning": {
+      "latitude": -83.7703,
+      "longitude": 171.652987
+    }
   },
   {
     "index": 15,
@@ -403,8 +433,6 @@
     "phone": "+1 (987) 530-3395",
     "address": "120 Stewart Street, Warsaw, Maine, 4394",
     "about": "Nulla reprehenderit sit velit quis amet veniam. Reprehenderit sint in exercitation dolore qui nostrud fugiat commodo id pariatur. Duis aliqua ex veniam et do ex consectetur veniam nostrud proident elit est. Consequat tempor tempor ad duis. Nulla ullamco minim adipisicing velit id.\r\n",
-    "latitude": -70.235802,
-    "longitude": -132.62383,
     "tags": [
       "do",
       "officia",
@@ -413,7 +441,11 @@
       "dolore",
       "esse",
       "sint"
-    ]
+    ],
+    "positioning": {
+      "latitude": -70.235802,
+      "longitude": -132.62383
+    }
   },
   {
     "index": 16,
@@ -429,8 +461,6 @@
     "phone": "+1 (972) 408-3527",
     "address": "125 Quentin Street, Homeland, New Mexico, 5891",
     "about": "Cillum labore anim exercitation consectetur. Nisi anim duis sint occaecat commodo cillum pariatur eiusmod adipisicing. Reprehenderit do magna cillum eu culpa labore. Do proident irure ex Lorem consectetur.\r\n",
-    "latitude": -12.664909,
-    "longitude": -23.994122,
     "tags": [
       "in",
       "minim",
@@ -439,7 +469,11 @@
       "aliqua",
       "elit",
       "amet"
-    ]
+    ],
+    "positioning": {
+      "latitude": -12.664909,
+      "longitude": -23.994122
+    }
   },
   {
     "index": 17,
@@ -455,8 +489,6 @@
     "phone": "+1 (849) 583-2544",
     "address": "379 Nova Court, Yukon, Colorado, 5907",
     "about": "Aute mollit ipsum ut ea incididunt veniam. Aute sunt dolor eu id veniam ea minim anim dolor culpa voluptate labore. Cupidatat nisi adipisicing officia qui excepteur.\r\n",
-    "latitude": -11.561983,
-    "longitude": 179.641644,
     "tags": [
       "cillum",
       "eiusmod",
@@ -465,7 +497,11 @@
       "commodo",
       "dolore",
       "pariatur"
-    ]
+    ],
+    "positioning": {
+      "latitude": -11.561983,
+      "longitude": 179.641644
+    }
   },
   {
     "index": 18,
@@ -481,8 +517,6 @@
     "phone": "+1 (999) 517-3592",
     "address": "884 Ludlam Place, Waukeenah, Delaware, 1624",
     "about": "Voluptate nostrud elit deserunt nisi proident commodo est sit esse ipsum exercitation. Id consequat non ullamco aute exercitation nulla voluptate officia cillum exercitation in sit velit. Amet ea nisi amet deserunt aliquip ea pariatur Lorem eiusmod eu excepteur. Cupidatat mollit aute incididunt culpa. Tempor ad esse aute enim ad labore laboris aliquip culpa. Adipisicing in anim est et fugiat mollit duis.\r\n",
-    "latitude": 52.87605,
-    "longitude": 23.293096,
     "tags": [
       "esse",
       "duis",
@@ -491,7 +525,11 @@
       "aliquip",
       "ad",
       "nostrud"
-    ]
+    ],
+    "positioning": {
+      "latitude": 52.87605,
+      "longitude": 23.293096
+    }
   },
   {
     "index": 19,
@@ -507,8 +545,6 @@
     "phone": "+1 (800) 509-3506",
     "address": "324 Meeker Avenue, Camino, Tennessee, 362",
     "about": "Labore est sint ipsum pariatur occaecat ullamco nisi. In velit laboris nulla officia et Lorem voluptate ex sunt aliqua. Magna deserunt ipsum consequat aliquip fugiat aute adipisicing eu.\r\n",
-    "latitude": -9.006561,
-    "longitude": -102.359607,
     "tags": [
       "tempor",
       "ullamco",
@@ -517,7 +553,11 @@
       "ullamco",
       "quis",
       "laboris"
-    ]
+    ],
+    "positioning": {
+      "latitude": -9.006561,
+      "longitude": -102.359607
+    }
   },
   {
     "index": 20,
@@ -533,8 +573,6 @@
     "phone": "+1 (986) 538-2693",
     "address": "205 Carlton Avenue, Thatcher, New York, 6413",
     "about": "Enim proident occaecat aliqua est nostrud veniam. Culpa adipisicing anim Lorem incididunt ex sint. Amet ea nisi duis mollit laborum ea. Velit labore ipsum ut consectetur amet est est eu do minim non mollit. Tempor velit anim minim amet veniam irure mollit. Nulla nisi ut incididunt sit non ad eiusmod proident.\r\n",
-    "latitude": -8.865955,
-    "longitude": -175.135403,
     "tags": [
       "velit",
       "laboris",
@@ -543,7 +581,11 @@
       "cupidatat",
       "excepteur",
       "magna"
-    ]
+    ],
+    "positioning": {
+      "latitude": -8.865955,
+      "longitude": -175.135403
+    }
   },
   {
     "index": 21,
@@ -559,8 +601,6 @@
     "phone": "+1 (902) 590-3890",
     "address": "722 Moultrie Street, Maxville, Montana, 2461",
     "about": "Pariatur aliqua qui consequat quis do esse id laboris ea in aliquip nostrud. Deserunt id occaecat ea exercitation aliquip eiusmod non esse irure sit sint minim veniam quis. Officia esse aute amet sunt do elit consequat magna. Laborum laboris sint aliqua labore consequat nulla pariatur.\r\n",
-    "latitude": -39.328664,
-    "longitude": 41.643299,
     "tags": [
       "mollit",
       "aute",
@@ -569,7 +609,11 @@
       "duis",
       "nisi",
       "ipsum"
-    ]
+    ],
+    "positioning": {
+      "latitude": -39.328664,
+      "longitude": 41.643299
+    }
   },
   {
     "index": 22,
@@ -585,8 +629,6 @@
     "phone": "+1 (879) 426-2214",
     "address": "204 Bliss Terrace, Ruffin, Massachusetts, 7109",
     "about": "Eu nisi labore excepteur in qui. Ut sit nostrud laboris aliqua cupidatat adipisicing Lorem id adipisicing adipisicing ad consectetur. Officia nulla amet dolor nisi adipisicing sint Lorem. Fugiat nisi in minim sunt. Lorem voluptate sit non incididunt veniam et.\r\n",
-    "latitude": 49.57917,
-    "longitude": 49.081396,
     "tags": [
       "pariatur",
       "nostrud",
@@ -595,7 +637,11 @@
       "eu",
       "labore",
       "irure"
-    ]
+    ],
+    "positioning": {
+      "latitude": 49.57917,
+      "longitude": 49.081396
+    }
   },
   {
     "index": 23,
@@ -611,8 +657,6 @@
     "phone": "+1 (854) 600-2059",
     "address": "402 Prince Street, Norfolk, Marshall Islands, 7959",
     "about": "Occaecat dolor sit aliqua cillum commodo sit dolore amet sunt aliqua fugiat dolor. Eu in officia eiusmod consectetur veniam nostrud laboris consequat. Sint do et elit proident proident culpa tempor officia ex commodo quis incididunt irure ad. Enim tempor nisi eu tempor irure Lorem anim est eu id anim. Mollit voluptate sit quis deserunt ex reprehenderit velit. Excepteur exercitation velit elit cillum fugiat exercitation eu est ullamco do consequat magna excepteur sint. Tempor voluptate ea et ullamco minim eu do.\r\n",
-    "latitude": 59.888821,
-    "longitude": 111.915081,
     "tags": [
       "anim",
       "mollit",
@@ -621,7 +665,11 @@
       "adipisicing",
       "anim",
       "in"
-    ]
+    ],
+    "positioning": {
+      "latitude": 59.888821,
+      "longitude": 111.915081
+    }
   },
   {
     "index": 24,
@@ -637,8 +685,6 @@
     "phone": "+1 (936) 415-3569",
     "address": "330 Kaufman Place, Fidelis, Ohio, 6535",
     "about": "Aute irure ex velit sunt adipisicing eu. Aute deserunt anim occaecat et labore deserunt et qui et eu velit. Aute qui officia reprehenderit do pariatur consequat ipsum pariatur ipsum aliqua. Sint sit ullamco amet mollit nostrud enim ipsum deserunt velit.\r\n",
-    "latitude": 83.280191,
-    "longitude": 89.944633,
     "tags": [
       "aute",
       "fugiat",
@@ -647,7 +693,11 @@
       "proident",
       "minim",
       "veniam"
-    ]
+    ],
+    "positioning": {
+      "latitude": 83.280191,
+      "longitude": 89.944633
+    }
   },
   {
     "index": 25,
@@ -663,8 +713,6 @@
     "phone": "+1 (853) 530-2729",
     "address": "188 Rugby Road, Camptown, Vermont, 8549",
     "about": "Incididunt incididunt incididunt ullamco aute mollit veniam aliquip esse duis laboris. Aliqua incididunt amet proident qui laborum ex Lorem nostrud nulla sunt eu magna ex velit. Ipsum nisi consectetur adipisicing elit aliquip laboris nisi cillum pariatur veniam culpa amet. Cupidatat enim esse qui velit. Dolore dolore aute Lorem irure culpa sit incididunt. Lorem amet minim culpa voluptate exercitation occaecat in excepteur excepteur laborum. Laboris nisi dolore est consectetur commodo nisi nulla aliqua incididunt ad eu.\r\n",
-    "latitude": 55.687468,
-    "longitude": 35.062533,
     "tags": [
       "quis",
       "id",
@@ -673,7 +721,11 @@
       "deserunt",
       "adipisicing",
       "dolor"
-    ]
+    ],
+    "positioning": {
+      "latitude": 55.687468,
+      "longitude": 35.062533
+    }
   },
   {
     "index": 26,
@@ -689,8 +741,6 @@
     "phone": "+1 (969) 449-3232",
     "address": "764 Chester Avenue, Caberfae, Arkansas, 6064",
     "about": "Eiusmod commodo incididunt eiusmod consequat voluptate culpa nostrud dolor aliquip qui sunt tempor qui. Anim veniam aliquip nisi sit ut adipisicing reprehenderit veniam et dolor qui sunt. Sunt velit nostrud dolore culpa ea occaecat. Culpa deserunt velit qui sunt sit nisi. Ea eiusmod labore enim officia. Aute irure elit ea proident laboris ipsum labore cillum excepteur.\r\n",
-    "latitude": 66.618049,
-    "longitude": -53.802202,
     "tags": [
       "laborum",
       "eu",
@@ -699,7 +749,11 @@
       "eu",
       "esse",
       "sit"
-    ]
+    ],
+    "positioning": {
+      "latitude": 66.618049,
+      "longitude": -53.802202
+    }
   },
   {
     "index": 27,
@@ -715,8 +769,6 @@
     "phone": "+1 (965) 548-2832",
     "address": "924 Murdock Court, Lynn, Missouri, 685",
     "about": "Tempor sint esse ullamco laborum ex non laboris reprehenderit nisi exercitation anim magna anim. Pariatur aliquip laboris occaecat fugiat ut dolore est et ipsum cupidatat cupidatat. Non et qui veniam proident enim incididunt Lorem fugiat. Enim consectetur dolore fugiat ad quis cillum minim et ex voluptate tempor sint aliqua. Ipsum officia esse Lorem velit aute ad irure. Deserunt ipsum mollit laborum ut eu id consequat. Sint proident consequat do ipsum esse cillum proident occaecat et.\r\n",
-    "latitude": -43.706724,
-    "longitude": 119.929371,
     "tags": [
       "officia",
       "reprehenderit",
@@ -725,7 +777,11 @@
       "exercitation",
       "id",
       "nisi"
-    ]
+    ],
+    "positioning": {
+      "latitude": -43.706724,
+      "longitude": 119.929371
+    }
   },
   {
     "index": 28,
@@ -741,8 +797,6 @@
     "phone": "+1 (810) 453-2281",
     "address": "247 Stillwell Place, Darrtown, Michigan, 6822",
     "about": "In minim minim cillum elit ut excepteur nostrud duis id anim eu. Eiusmod fugiat est minim eiusmod sunt ipsum fugiat non duis. Nulla nisi do mollit deserunt amet Lorem pariatur sint occaecat exercitation ad ullamco voluptate enim.\r\n",
-    "latitude": -11.140892,
-    "longitude": -101.304714,
     "tags": [
       "anim",
       "velit",
@@ -751,7 +805,11 @@
       "fugiat",
       "adipisicing",
       "adipisicing"
-    ]
+    ],
+    "positioning": {
+      "latitude": -11.140892,
+      "longitude": -101.304714
+    }
   },
   {
     "index": 29,
@@ -767,8 +825,6 @@
     "phone": "+1 (844) 498-3587",
     "address": "371 Utica Avenue, Gallina, Illinois, 2482",
     "about": "Officia sunt pariatur ut ipsum aliquip exercitation dolore aliquip et cupidatat. Lorem eiusmod ea minim ullamco. Exercitation proident voluptate veniam adipisicing nostrud sint pariatur reprehenderit eiusmod ipsum exercitation deserunt. Cillum ad et veniam aliqua anim. Culpa cupidatat duis occaecat laborum. Est ad ullamco aute occaecat nisi et cillum Lorem.\r\n",
-    "latitude": 76.31942,
-    "longitude": 61.152395,
     "tags": [
       "amet",
       "do",
@@ -777,7 +833,11 @@
       "excepteur",
       "exercitation",
       "in"
-    ]
+    ],
+    "positioning": {
+      "latitude": 76.31942,
+      "longitude": 61.152395
+    }
   },
   {
     "index": 30,
@@ -793,8 +853,6 @@
     "phone": "+1 (851) 436-3515",
     "address": "170 Eldert Street, Sparkill, Texas, 1644",
     "about": "Ut consectetur pariatur aute minim anim eiusmod cupidatat dolore dolor eu. Proident Lorem nulla id incididunt minim ex irure occaecat nisi magna. Nulla ea amet tempor ex consequat enim consequat.\r\n",
-    "latitude": 39.708675,
-    "longitude": 116.564353,
     "tags": [
       "in",
       "exercitation",
@@ -803,7 +861,11 @@
       "veniam",
       "elit",
       "eiusmod"
-    ]
+    ],
+    "positioning": {
+      "latitude": 39.708675,
+      "longitude": 116.564353
+    }
   },
   {
     "index": 31,
@@ -819,8 +881,6 @@
     "phone": "+1 (837) 428-2111",
     "address": "515 Newkirk Placez, Gracey, Maryland, 3546",
     "about": "Voluptate tempor velit nulla cupidatat deserunt enim excepteur eu eiusmod in tempor reprehenderit ut laboris. Labore anim ex proident est amet esse id cupidatat. Minim eu excepteur sint reprehenderit irure eiusmod proident aliquip nostrud do ipsum incididunt non. Proident Lorem eu voluptate dolore do eu ad elit aute excepteur magna nulla ullamco.\r\n",
-    "latitude": -28.836763,
-    "longitude": 155.825643,
     "tags": [
       "ad",
       "ex",
@@ -829,7 +889,11 @@
       "irure",
       "excepteur",
       "velit"
-    ]
+    ],
+    "positioning": {
+      "latitude": -28.836763,
+      "longitude": 155.825643
+    }
   },
   {
     "index": 32,
@@ -845,8 +909,6 @@
     "phone": "+1 (973) 571-2517",
     "address": "274 Kings Hwy, Bannock, Alaska, 2237",
     "about": "Qui nisi cupidatat eiusmod fugiat occaecat nulla consectetur mollit tempor consectetur veniam. Duis cupidatat laborum qui adipisicing. Fugiat eiusmod exercitation labore Lorem in ad aliqua reprehenderit. Duis laborum est non enim aliquip anim ad ea voluptate amet mollit voluptate velit cupidatat. Veniam laborum nulla laboris dolor consequat et id.\r\n",
-    "latitude": -78.685936,
-    "longitude": -104.10382,
     "tags": [
       "qui",
       "incididunt",
@@ -855,7 +917,11 @@
       "minim",
       "cillum",
       "Lorem"
-    ]
+    ],
+    "positioning": {
+      "latitude": -78.685936,
+      "longitude": -104.10382
+    }
   },
   {
     "index": 33,
@@ -871,8 +937,6 @@
     "phone": "+1 (937) 427-2737",
     "address": "652 Corbin Place, Rosburg, American Samoa, 7281",
     "about": "Laborum nostrud ipsum nulla aliqua labore do Lorem occaecat minim pariatur fugiat elit nulla. Enim cillum eiusmod qui aliquip. Veniam est ex adipisicing dolor proident pariatur eiusmod nisi.\r\n",
-    "latitude": 20.97239,
-    "longitude": -102.492709,
     "tags": [
       "eiusmod",
       "tempor",
@@ -881,7 +945,11 @@
       "id",
       "dolore",
       "sint"
-    ]
+    ],
+    "positioning": {
+      "latitude": 20.97239,
+      "longitude": -102.492709
+    }
   },
   {
     "index": 34,
@@ -897,8 +965,6 @@
     "phone": "+1 (998) 480-3003",
     "address": "928 George Street, Jessie, New Jersey, 3875",
     "about": "Eiusmod ex minim eu do. Est eu irure labore sunt occaecat duis enim. Incididunt occaecat cupidatat ipsum excepteur nisi nostrud ea occaecat qui elit. Fugiat non eiusmod occaecat amet minim ipsum sunt velit non fugiat. Labore laboris veniam qui eu voluptate nulla ipsum. Ullamco aliquip et eiusmod laboris velit sit officia duis mollit. Sint voluptate cillum culpa amet sit enim quis occaecat.\r\n",
-    "latitude": -62.73323,
-    "longitude": -111.443229,
     "tags": [
       "mollit",
       "consequat",
@@ -907,7 +973,11 @@
       "consectetur",
       "sit",
       "amet"
-    ]
+    ],
+    "positioning": {
+      "latitude": -62.73323,
+      "longitude": -111.443229
+    }
   },
   {
     "index": 35,
@@ -923,8 +993,6 @@
     "phone": "+1 (981) 421-3854",
     "address": "801 Gardner Avenue, Sanford, Virginia, 3568",
     "about": "Pariatur ea nostrud excepteur Lorem est eu et Lorem quis consequat. Magna ullamco eiusmod fugiat nulla. Dolor nulla Lorem elit exercitation tempor reprehenderit nulla commodo ex sit tempor officia anim voluptate. Nostrud fugiat adipisicing laborum minim voluptate velit nulla ut. Quis in dolore labore do dolor reprehenderit consequat commodo magna officia sint est deserunt. Proident quis exercitation est laborum consequat magna incididunt culpa id eu. Ullamco labore ex ex duis laborum cillum aliquip eu culpa sunt sit irure voluptate.\r\n",
-    "latitude": -9.011986,
-    "longitude": 44.607951,
     "tags": [
       "commodo",
       "commodo",
@@ -933,7 +1001,11 @@
       "ex",
       "fugiat",
       "aliqua"
-    ]
+    ],
+    "positioning": {
+      "latitude": -9.011986,
+      "longitude": 44.607951
+    }
   },
   {
     "index": 36,
@@ -949,8 +1021,6 @@
     "phone": "+1 (991) 476-2455",
     "address": "712 Chester Court, Brewster, Wisconsin, 6098",
     "about": "Esse id irure non Lorem nisi proident aute amet est. Ex commodo veniam id mollit Lorem quis sunt dolore in. Ipsum incididunt dolore consequat ea Lorem sit ut veniam excepteur reprehenderit et. Labore duis ex irure reprehenderit laboris ut est in non. Esse nostrud eiusmod nostrud id. Aute magna occaecat minim ea sunt deserunt esse dolore.\r\n",
-    "latitude": -73.4825,
-    "longitude": 126.740514,
     "tags": [
       "mollit",
       "tempor",
@@ -959,7 +1029,11 @@
       "quis",
       "aliqua",
       "do"
-    ]
+    ],
+    "positioning": {
+      "latitude": -73.4825,
+      "longitude": 126.740514
+    }
   },
   {
     "index": 37,
@@ -975,8 +1049,6 @@
     "phone": "+1 (995) 572-3897",
     "address": "501 Havemeyer Street, Walland, Oklahoma, 4761",
     "about": "Veniam in nulla eiusmod consectetur labore labore cillum deserunt anim laborum aliquip aute pariatur. Non sint deserunt labore occaecat ea elit esse consectetur ut do tempor sunt. In incididunt adipisicing esse incididunt sit voluptate magna. Aute amet amet voluptate elit minim labore voluptate reprehenderit occaecat laborum.\r\n",
-    "latitude": -1.542486,
-    "longitude": 83.62286,
     "tags": [
       "culpa",
       "reprehenderit",
@@ -985,7 +1057,11 @@
       "ullamco",
       "ad",
       "nostrud"
-    ]
+    ],
+    "positioning": {
+      "latitude": -1.542486,
+      "longitude": 83.62286
+    }
   },
   {
     "index": 38,
@@ -1001,8 +1077,6 @@
     "phone": "+1 (987) 556-2857",
     "address": "734 Clymer Street, Mansfield, Mississippi, 2393",
     "about": "Adipisicing qui esse consectetur irure cillum eu laboris mollit tempor tempor consequat aute et ipsum. Fugiat qui minim anim cupidatat ullamco. Mollit excepteur proident eiusmod ipsum fugiat elit id anim elit ipsum cupidatat anim tempor. Amet eiusmod in do excepteur.\r\n",
-    "latitude": -15.378804,
-    "longitude": -26.556485,
     "tags": [
       "qui",
       "amet",
@@ -1011,7 +1085,11 @@
       "qui",
       "sint",
       "officia"
-    ]
+    ],
+    "positioning": {
+      "latitude": -15.378804,
+      "longitude": -26.556485
+    }
   },
   {
     "index": 39,
@@ -1027,8 +1105,6 @@
     "phone": "+1 (875) 475-3236",
     "address": "228 Glenmore Avenue, Grapeview, Alabama, 1863",
     "about": "Adipisicing exercitation est ea proident. Eu voluptate Lorem adipisicing in commodo in in eu consequat nostrud officia excepteur. Laborum magna ad qui tempor nisi excepteur anim incididunt eiusmod. Culpa deserunt ea nisi consectetur elit labore do. Commodo cillum consequat elit proident laborum id qui ex eiusmod ut labore occaecat proident. Nostrud voluptate exercitation incididunt dolor laborum consequat qui.\r\n",
-    "latitude": -42.879393,
-    "longitude": -52.149933,
     "tags": [
       "labore",
       "non",
@@ -1037,7 +1113,11 @@
       "est",
       "laboris",
       "occaecat"
-    ]
+    ],
+    "positioning": {
+      "latitude": -42.879393,
+      "longitude": -52.149933
+    }
   },
   {
     "index": 40,
@@ -1053,8 +1133,6 @@
     "phone": "+1 (871) 588-2887",
     "address": "591 Gallatin Place, Delshire, Puerto Rico, 7450",
     "about": "Nostrud laboris officia qui excepteur elit culpa Lorem laborum dolore fugiat quis velit aliquip. Nisi deserunt culpa nisi officia aliqua mollit. Laborum veniam qui ut incididunt. Tempor adipisicing officia reprehenderit velit ex qui magna.\r\n",
-    "latitude": 50.197568,
-    "longitude": 39.618764,
     "tags": [
       "consequat",
       "mollit",
@@ -1063,7 +1141,11 @@
       "proident",
       "est",
       "minim"
-    ]
+    ],
+    "positioning": {
+      "latitude": 50.197568,
+      "longitude": 39.618764
+    }
   },
   {
     "index": 41,
@@ -1079,8 +1161,6 @@
     "phone": "+1 (862) 441-3775",
     "address": "831 Kenmore Terrace, Chesterfield, South Carolina, 4873",
     "about": "Sunt ullamco laboris cupidatat veniam officia excepteur do. Eu consectetur id magna laborum ex aliquip anim exercitation adipisicing sit elit duis. Enim velit incididunt elit Lorem exercitation incididunt. Velit eu mollit consequat aute nulla consectetur qui non ex in proident excepteur. Excepteur aliqua nisi dolor consectetur. Consequat fugiat veniam laboris duis consectetur commodo excepteur amet magna officia laboris voluptate. Aliqua dolore id et magna.\r\n",
-    "latitude": 15.904362,
-    "longitude": -11.253604,
     "tags": [
       "quis",
       "dolore",
@@ -1089,7 +1169,11 @@
       "aliquip",
       "minim",
       "nulla"
-    ]
+    ],
+    "positioning": {
+      "latitude": 15.904362,
+      "longitude": -11.253604
+    }
   },
   {
     "index": 42,
@@ -1105,8 +1189,6 @@
     "phone": "+1 (935) 489-3035",
     "address": "294 Matthews Place, Delco, Indiana, 7963",
     "about": "Enim exercitation id in ad adipisicing amet voluptate Lorem excepteur. Commodo exercitation quis nostrud consequat voluptate voluptate pariatur veniam nostrud ipsum cupidatat. Exercitation sunt anim nulla consectetur nisi Lorem commodo ad sit sit culpa mollit. Pariatur esse amet nisi nisi irure anim. Excepteur sint voluptate adipisicing aute minim adipisicing.\r\n",
-    "latitude": -3.843702,
-    "longitude": 33.755996,
     "tags": [
       "ea",
       "ex",
@@ -1115,7 +1197,11 @@
       "in",
       "sint",
       "ad"
-    ]
+    ],
+    "positioning": {
+      "latitude": -3.843702,
+      "longitude": 33.755996
+    }
   },
   {
     "index": 43,
@@ -1131,8 +1217,6 @@
     "phone": "+1 (873) 582-2122",
     "address": "560 Hinckley Place, Worcester, Guam, 8753",
     "about": "Quis ipsum aliquip mollit ipsum minim dolore consectetur exercitation fugiat Lorem. Cupidatat est cillum velit adipisicing deserunt. Incididunt nisi tempor irure incididunt qui laboris aute eu nulla elit consectetur ex. Excepteur nisi qui esse ut eu. In esse incididunt esse laborum consectetur quis adipisicing exercitation qui amet non.\r\n",
-    "latitude": 87.57539,
-    "longitude": 65.667984,
     "tags": [
       "quis",
       "ut",
@@ -1141,7 +1225,11 @@
       "pariatur",
       "culpa",
       "mollit"
-    ]
+    ],
+    "positioning": {
+      "latitude": 87.57539,
+      "longitude": 65.667984
+    }
   },
   {
     "index": 44,
@@ -1157,8 +1245,6 @@
     "phone": "+1 (920) 554-2539",
     "address": "256 Temple Court, Vallonia, Arizona, 2268",
     "about": "Eiusmod commodo tempor minim adipisicing ut sint amet. Nisi exercitation exercitation magna anim Lorem. Quis labore ex anim qui laborum voluptate aliquip magna consectetur elit eiusmod ex enim. Sit ex nisi incididunt esse anim aliqua sit laboris. Culpa excepteur aliquip ut irure aute ut laborum deserunt qui et laborum.\r\n",
-    "latitude": 52.397325,
-    "longitude": -10.328756,
     "tags": [
       "eiusmod",
       "eu",
@@ -1167,7 +1253,11 @@
       "eiusmod",
       "aliqua",
       "culpa"
-    ]
+    ],
+    "positioning": {
+      "latitude": 52.397325,
+      "longitude": -10.328756
+    }
   },
   {
     "index": 45,
@@ -1183,8 +1273,6 @@
     "phone": "+1 (906) 497-2216",
     "address": "760 Aviation Road, Martell, New Hampshire, 3190",
     "about": "Voluptate duis exercitation minim reprehenderit officia officia proident irure sint ad nulla proident aliquip do. Veniam velit minim occaecat proident duis. Nostrud fugiat eu et culpa deserunt quis proident eu.\r\n",
-    "latitude": 12.836405,
-    "longitude": 65.007807,
     "tags": [
       "deserunt",
       "enim",
@@ -1193,7 +1281,11 @@
       "duis",
       "labore",
       "velit"
-    ]
+    ],
+    "positioning": {
+      "latitude": 12.836405,
+      "longitude": 65.007807
+    }
   },
   {
     "index": 46,
@@ -1209,8 +1301,6 @@
     "phone": "+1 (917) 410-3564",
     "address": "278 Borinquen Pl, Enetai, Washington, 3686",
     "about": "Eu occaecat ullamco occaecat fugiat laboris cupidatat ullamco id reprehenderit excepteur. Eiusmod sit Lorem sunt anim mollit ea sint veniam enim. Magna ut eiusmod exercitation reprehenderit ad nisi ea est id esse incididunt ut.\r\n",
-    "latitude": 68.474549,
-    "longitude": -109.372335,
     "tags": [
       "irure",
       "deserunt",
@@ -1219,7 +1309,11 @@
       "velit",
       "Lorem",
       "Lorem"
-    ]
+    ],
+    "positioning": {
+      "latitude": 68.474549,
+      "longitude": -109.372335
+    }
   },
   {
     "index": 47,
@@ -1235,8 +1329,6 @@
     "phone": "+1 (913) 496-2815",
     "address": "524 Beard Street, Fontanelle, Idaho, 8273",
     "about": "Pariatur ea culpa consequat ea sunt officia in laboris non pariatur irure ut incididunt. Adipisicing anim ad cupidatat tempor magna sunt ut esse. Cupidatat id officia enim velit minim et ipsum ex ea. Labore aliqua eu velit velit irure.\r\n",
-    "latitude": 8.467961,
-    "longitude": 161.932716,
     "tags": [
       "proident",
       "laboris",
@@ -1245,7 +1337,11 @@
       "ad",
       "excepteur",
       "commodo"
-    ]
+    ],
+    "positioning": {
+      "latitude": 8.467961,
+      "longitude": 161.932716
+    }
   },
   {
     "index": 48,
@@ -1261,8 +1357,6 @@
     "phone": "+1 (830) 497-3026",
     "address": "135 Quay Street, Wauhillau, Minnesota, 1979",
     "about": "Sit cillum dolor amet quis mollit commodo id quis deserunt. Quis proident sunt incididunt quis dolor sit. Dolore incididunt eu nisi consectetur reprehenderit. Velit enim sit deserunt cillum elit labore cillum magna tempor cupidatat tempor. Qui dolor amet reprehenderit quis nisi consequat dolore aliquip eiusmod ut est labore exercitation.\r\n",
-    "latitude": 57.200188,
-    "longitude": 150.731848,
     "tags": [
       "amet",
       "mollit",
@@ -1271,7 +1365,11 @@
       "laboris",
       "nulla",
       "nulla"
-    ]
+    ],
+    "positioning": {
+      "latitude": 57.200188,
+      "longitude": 150.731848
+    }
   },
   {
     "index": 49,
@@ -1287,8 +1385,6 @@
     "phone": "+1 (955) 567-3698",
     "address": "479 Amherst Street, Ona, North Carolina, 584",
     "about": "Nisi laborum in dolore quis duis voluptate. Proident nulla ex nisi tempor. Sint Lorem ut magna est excepteur ex tempor dolor cillum est eu qui.\r\n",
-    "latitude": 39.136076,
-    "longitude": -1.867933,
     "tags": [
       "excepteur",
       "ullamco",
@@ -1297,6 +1393,10 @@
       "nostrud",
       "ipsum",
       "dolor"
-    ]
+    ],
+    "positioning": {
+      "latitude": 39.136076,
+      "longitude": -1.867933
+    }
   }
 ]
