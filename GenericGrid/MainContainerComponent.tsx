@@ -27,9 +27,9 @@ interface IGridRow {
   isActive: boolean;
 }
 
-type IDummyDataRow = (typeof dummyData)[number];
+type IdDataRow = (typeof dummyData)[number];
 
-const gridData: IGridRow[] = dummyData.map((item: IDummyDataRow) => {
+const gridData: IGridRow[] = dummyData.map((item: IdDataRow) => {
   return {
     guid: item.guid,
     name: item.name,
