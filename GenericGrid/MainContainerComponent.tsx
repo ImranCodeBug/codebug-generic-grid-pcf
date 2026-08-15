@@ -23,7 +23,20 @@ interface IEmailCell {
   value: string;
 }
 
-type IGridCell = string | number | boolean | IEmailCell;
+interface IPosition {
+  latitude: number;
+  longitude: number;
+}
+
+interface IImage {
+  kind: "image";
+  url: string;
+}
+
+type IGridCell = string | number | boolean | IEmailCell | IPosition | IImage;
+type IGridRow = [IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell];
+
+type TCellTypeHint = "default" | "image";
 
 const createEmailCell = (value: string): IEmailCell => {
   return {
@@ -32,33 +45,117 @@ const createEmailCell = (value: string): IEmailCell => {
   };
 };
 
-const isEmailCell = (cellValue: IGridCell): cellValue is IEmailCell => {
-  return typeof cellValue === "object" && cellValue !== null && cellValue.kind === "email";
+const createImageCell = (url: string): IImage => {
+  return {
+    kind: "image",
+    url
+  };
 };
 
-type IGridRow = [string, string, IEmailCell, string, number, string, boolean];
+const isEmailCell = (cellValue: IGridCell): cellValue is IEmailCell => {
+  return typeof cellValue === "object" && cellValue !== null && "kind" in cellValue && cellValue.kind === "email";
+};
+
+const isImageCell = (cellValue: IGridCell): cellValue is IImage => {
+  return typeof cellValue === "object" && cellValue !== null && "kind" in cellValue && cellValue.kind === "image";
+};
+
+const isPositionObject = (value: unknown): value is { latitude: number; longitude: number } => {
+  if (typeof value !== "object" || value === null) {
+    return false;
+  }
+
+  const keys = Object.keys(value as Record<string, unknown>);
+  if (keys.length !== 2 || !keys.includes("latitude") || !keys.includes("longitude")) {
+    return false;
+  }
+
+  const candidate = value as { latitude?: unknown; longitude?: unknown };
+  return typeof candidate.latitude === "number" && typeof candidate.longitude === "number";
+};
+
+const isPositionCell = (cellValue: IGridCell): cellValue is IPosition => {
+  return isPositionObject(cellValue);
+};
+
+const getCellType = (value: unknown, hint: TCellTypeHint = "default"): IGridCell => {
+  if (hint === "image") {
+    if (typeof value === "string") {
+      return createImageCell(value.trim());
+    }
+
+    return createImageCell("");
+  }
+
+  if (isPositionObject(value)) {
+    return value;
+  }
+
+  if (typeof value === "string") {
+    const trimmedValue = value.trim();
+    const isEmailValue = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedValue);
+    return isEmailValue ? createEmailCell(trimmedValue) : value;
+  }
+
+  if (typeof value === "number" || typeof value === "boolean") {
+    return value;
+  }
+
+  return "";
+};
+
+const getCellText = (cellValue: IGridCell): string => {
+  if (isEmailCell(cellValue)) {
+    return cellValue.value;
+  }
+
+  if (isImageCell(cellValue)) {
+    return cellValue.url;
+  }
+
+  if (isPositionCell(cellValue)) {
+    return `${cellValue.latitude},${cellValue.longitude}`;
+  }
+
+  return String(cellValue);
+};
 
 const gridData: IGridRow[] = dummyData.map((item: IdDataRow) => {
   return [
-    item.name,
-    item.company,
-    createEmailCell(item.email),
-    item.phone,
-    item.age,
-    item.balance,
-    item.isActive 
+    getCellType(item.picture, "image"),
+    getCellType(item.name),
+    getCellType(item.company),
+    getCellType(item.email),
+    getCellType(item.phone),
+    getCellType(item.age),
+    getCellType(item.balance),
+    getCellType(item.isActive),
+    getCellType(item.positioning)
   ];
 });
 
 const minColumnWidthPx = 64;
+const imageColumnWidthPercent = 4;
 type TSortDirection = "ascending" | "descending";
 
-const getInitialColumnWidths = (columnCount: number): number[] => {
+const getInitialColumnWidths = (columnCount: number, imageColumnIndex: number): number[] => {
   if (columnCount <= 0) {
     return [];
   }
 
-  return Array.from({ length: columnCount }, () => 100 / columnCount);
+  if (imageColumnIndex < 0 || imageColumnIndex >= columnCount) {
+    return Array.from({ length: columnCount }, () => 100 / columnCount);
+  }
+
+  if (columnCount === 1) {
+    return [100];
+  }
+
+  const remainingWidthPercent = 100 - imageColumnWidthPercent;
+  const otherColumnWidthPercent = remainingWidthPercent / (columnCount - 1);
+  const widths = Array.from({ length: columnCount }, () => otherColumnWidthPercent);
+  widths[imageColumnIndex] = imageColumnWidthPercent;
+  return widths;
 };
 
 const getSortValue = (row: IGridRow, columnIndex: number): string | number | boolean => {
@@ -72,10 +169,29 @@ const getSortValue = (row: IGridRow, columnIndex: number): string | number | boo
     return cellValue.value;
   }
 
+  if (isImageCell(cellValue)) {
+    return cellValue.url;
+  }
+
+  if (isPositionCell(cellValue)) {
+    return getCellText(cellValue);
+  }
+
   return cellValue;
 };
 
 const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = ({ data, columns, isSortable, pageSize }) => {
+  const imageColumnIndex = React.useMemo(() => {
+    const firstRow = gridData[0];
+
+    if (!firstRow) {
+      return -1;
+    }
+
+    const detectedIndex = firstRow.findIndex((cellValue) => isImageCell(cellValue));
+    return detectedIndex >= 0 && detectedIndex < columns.length ? detectedIndex : -1;
+  }, [columns.length]);
+
   const gridRef = React.useRef<HTMLDivElement | null>(null);
   const dragStateRef = React.useRef<{
     columnIndex: number;
@@ -83,13 +199,13 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
     startWidths: number[];
     tableWidth: number;
   } | null>(null);
-  const [columnWidths, setColumnWidths] = React.useState<number[]>(() => getInitialColumnWidths(columns.length));
+  const [columnWidths, setColumnWidths] = React.useState<number[]>(() => getInitialColumnWidths(columns.length, imageColumnIndex));
   const [sortState, setSortState] = React.useState<{ columnIndex: number; direction: TSortDirection } | null>(null);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
 
   React.useEffect(() => {
-    setColumnWidths(getInitialColumnWidths(columns.length));
-  }, [columns.length]);
+    setColumnWidths(getInitialColumnWidths(columns.length, imageColumnIndex));
+  }, [columns.length, imageColumnIndex]);
 
   const sortedRows = React.useMemo(() => {
     if (!sortState) {
@@ -216,13 +332,32 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
     });
   };
 
+  const ImageCell: React.FunctionComponent<{ imageCell: IImage; altText: string }> = ({ imageCell, altText }) => {
+    const [isBroken, setIsBroken] = React.useState<boolean>(imageCell.url.length === 0);
+
+    if (isBroken) {
+      return <span className="cg-grid__image-fallback" aria-label="Image unavailable">?</span>;
+    }
+
+    return (
+      <img
+        className="cg-grid__image"
+        src={imageCell.url}
+        alt={altText}
+        onError={() => setIsBroken(true)}
+      />
+    );
+  };
+
   return (
     <div className="cg-grid" ref={gridRef}>
       <Table aria-label="Dynamics style subgrid" className="cg-grid__table">
         <TableHeader>
           <TableRow>
             {columns.map((column, columnIndex) => {
-              const isResizable = columnIndex < columns.length - 1;
+              const isImageColumn = columnIndex === imageColumnIndex;
+              const nextIsImageColumn = columnIndex + 1 === imageColumnIndex;
+              const isResizable = columnIndex < columns.length - 1 && !isImageColumn && !nextIsImageColumn;
               const isSortedColumn = sortState?.columnIndex === columnIndex;
               const sortGlyph = sortState?.direction === "ascending" ? "▲" : "▼";
 
@@ -255,15 +390,37 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
         </TableHeader>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={`${row[0]}-${row[2].value}`} className="cg-grid__row">
-              {row.map((cellValue, columnIndex) => (
+            <TableRow key={`${getCellText(row[1])}-${getCellText(row[3])}`} className="cg-grid__row">
+              {row.slice(0, columns.length).map((cellValue, columnIndex) => (
                 <TableCell
-                  key={`${row[0]}-${columnIndex}`}
-                  className={columnIndex === 0 ? "cg-grid__cell cg-grid__cell--name" : "cg-grid__cell"}
+                  key={`${getCellText(row[1])}-${columnIndex}`}
+                  className={
+                    columnIndex === imageColumnIndex
+                      ? "cg-grid__cell cg-grid__cell--image"
+                      : columnIndex === 1
+                        ? "cg-grid__cell cg-grid__cell--name"
+                        : "cg-grid__cell"
+                  }
                   style={getColumnWidthStyle(columnIndex)}
                 >
-                  {isEmailCell(cellValue)
+                  {isImageCell(cellValue)
+                    ? <ImageCell imageCell={cellValue} altText={`${getCellText(row[1])} image`} />
+                    : isEmailCell(cellValue)
                     ? <a className="cg-grid__cell-link" href={`mailto:${cellValue.value}`}>{cellValue.value}</a>
+                    : isPositionCell(cellValue)
+                      ? (
+                        <a
+                          className="cg-grid__cell-link cg-grid__cell-link--map"
+                          href={`https://www.google.com/maps?q=${cellValue.latitude},${cellValue.longitude}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`Open location in Google Maps (${cellValue.latitude}, ${cellValue.longitude})`}
+                        >
+                          <svg className="cg-grid__map-icon" width="16" height="16" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                            <path d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z" fill="currentColor"/>
+                          </svg>
+                        </a>
+                      )
                     : typeof cellValue === "boolean" ? (cellValue ? "Yes" : "No") : cellValue}
                 </TableCell>
               ))}
