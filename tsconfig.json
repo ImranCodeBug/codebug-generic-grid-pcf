@@ -1,5 +1,6 @@
 {
     "extends": "./node_modules/pcf-scripts/tsconfig_base.json",
+    "exclude": ["eslint.config.mjs"],
     "compilerOptions": {
         "typeRoots": ["node_modules/@types"],
         "types": ["powerapps-component-framework", "react", "node"],

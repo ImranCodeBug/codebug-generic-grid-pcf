@@ -94,11 +94,28 @@
   line-height: 1;
 }
 
-.cg-grid__row:hover {
-  background: #f3f2f1;
+.cg-grid__row {
+  transition: background-color 120ms ease;
+}
+
+.cg-grid__row:hover,
+.cg-grid__row:focus-within {
+  background: #f3f9fe;
+}
+
+.cg-grid__row:hover .cg-grid__cell,
+.cg-grid__row:focus-within .cg-grid__cell {
+  background: #f3f9fe;
+}
+
+.cg-grid__row:hover .cg-grid__cell:first-child,
+.cg-grid__row:focus-within .cg-grid__cell:first-child {
+  box-shadow: inset 3px 0 0 #0078d4;
 }
 
 .cg-grid__cell {  
+  background: transparent;
+  transition: background-color 120ms ease;
   padding-left: 16px !important;
   border-bottom: 1px solid #edebe9;
   overflow: hidden;

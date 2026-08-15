@@ -16,30 +16,20 @@ interface IMainContainerComponentProps {
   pageSize: number;
 }
 
-interface IGridRow {
-  guid: string;
-  name: string;
-  company: string;
-  email: string;
-  phone: string;
-  age: number;
-  balance: string;
-  isActive: boolean;
-}
-
 type IdDataRow = (typeof dummyData)[number];
 
+type IGridRow = [string, string, string, string, number, string, string];
+
 const gridData: IGridRow[] = dummyData.map((item: IdDataRow) => {
-  return {
-    guid: item.guid,
-    name: item.name,
-    company: item.company,
-    email: item.email,
-    phone: item.phone,
-    age: item.age,
-    balance: item.balance,
-    isActive: item.isActive
-  };
+  return [
+    item.name,
+    item.company,
+    item.email,
+    item.phone,
+    item.age,
+    item.balance,
+    item.isActive ? "Active" : "Inactive"
+  ];
 });
 
 const defaultColumnWidths = [14.285714, 14.285714, 14.285714, 14.285714, 14.285714, 14.285714, 14.285714];
@@ -47,24 +37,7 @@ const minColumnWidthPx = 64;
 type TSortDirection = "ascending" | "descending";
 
 const getSortValue = (row: IGridRow, columnIndex: number): string | number => {
-  switch (columnIndex) {
-    case 0:
-      return row.name;
-    case 1:
-      return row.company;
-    case 2:
-      return row.email;
-    case 3:
-      return row.phone;
-    case 4:
-      return row.age;
-    case 5:
-      return row.balance;
-    case 6:
-      return row.isActive ? "Active" : "Inactive";
-    default:
-      return "";
-  }
+  return row[columnIndex] ?? "";
 };
 
 const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = ({ data, columns, isSortable, pageSize }) => {
@@ -219,16 +192,16 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
         </TableHeader>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.guid} className="cg-grid__row">
-              <TableCell className="cg-grid__cell cg-grid__cell--name" style={getColumnWidthStyle(0)}>{row.name}</TableCell>
-              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(1)}>{row.company}</TableCell>
-              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(2)}>{row.email}</TableCell>
-              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(3)}>{row.phone}</TableCell>
-              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(4)}>{row.age}</TableCell>
-              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(5)}>{row.balance}</TableCell>
+            <TableRow key={`${row[0]}-${row[2]}`} className="cg-grid__row">
+              <TableCell className="cg-grid__cell cg-grid__cell--name" style={getColumnWidthStyle(0)}>{row[0]}</TableCell>
+              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(1)}>{row[1]}</TableCell>
+              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(2)}>{row[2]}</TableCell>
+              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(3)}>{row[3]}</TableCell>
+              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(4)}>{row[4]}</TableCell>
+              <TableCell className="cg-grid__cell" style={getColumnWidthStyle(5)}>{row[5]}</TableCell>
               <TableCell className="cg-grid__cell" style={getColumnWidthStyle(6)}>
-                <span className={row.isActive ? "cg-grid__status cg-grid__status--active" : "cg-grid__status cg-grid__status--inactive"}>
-                  {row.isActive ? "Active" : "Inactive"}
+                <span className={row[6] === "Active" ? "cg-grid__status cg-grid__status--active" : "cg-grid__status cg-grid__status--inactive"}>
+                  {row[6]}
                 </span>
               </TableCell>
             </TableRow>
