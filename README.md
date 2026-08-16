@@ -2,10 +2,13 @@
 
 Codebug Pai Grid is a virtual Power Apps Component Framework (PCF) control that renders a JSON array as a Fluent UI table. Columns are read left to right from the property order in each JSON object. `columnHeaders` provides the visible headings and `cellTypes` selects the renderer for each matching position.
 
+![Image](Images\Lookandfeel.png)
+
 ## Configuration
 
 | Manifest property | Type and usage | How it is used |
 | --- | --- | --- |
+| `crmUrl` | Required, input `SingleLine.Text` text property | Url for the crm instance where the control is hosted |
 | `data` | Required, bound `Multiple` text property | JSON array used as the table data source. Each object must use a consistent property order because its values are mapped left to right. Invalid JSON or a value that is not an array results in an empty grid. |
 | `columnHeaders` | Required input `SingleLine.Text` property | JSON string array of headings. Its length controls the number of visible values from each data object. Example: `["Picture", "Name", "Email"]`. |
 | `cellTypes` | Required input `SingleLine.Text` property | JSON string array of cell types. Each entry applies to the value at the same index as its header. Type names are trimmed and case-insensitive. |
@@ -37,6 +40,9 @@ uses:
 ```json
 ["image", "text", "email", "crmLink", "text", "link", "text", "boolean", "array"]
 ```
+Look at the following JSON file that have been used to prepare this control
+- [Bigger version](dummyData.json) 
+- [Smaller version](dummyData-small.json)
 
 ## Cell Types
 
