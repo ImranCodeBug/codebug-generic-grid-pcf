@@ -8,6 +8,7 @@ import TableBodyComponent from "./TableBodyComponent";
 import TableHeaderComponent from "./TableHeaderComponent";
 
 interface IMainContainerComponentProps {
+  crmUrl: string;
   data: string;
   columns: string[];
   columnTypes: string[];
@@ -70,7 +71,7 @@ const getSortValue = (row: IGridRow, columnIndex: number): string | number | boo
   return typeof cellValue === "number" || typeof cellValue === "boolean" ? cellValue : getCellText(cellValue);
 };
 
-const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = ({ data, columns, columnTypes, isSortable, pageSize }) => {
+const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = ({ crmUrl, data, columns, columnTypes, isSortable, pageSize }) => {
   const gridData = React.useMemo(() => createGridRows(data, columnTypes, columns.length), [data, columnTypes, columns.length]);
 
   const imageColumnIndex = React.useMemo(() => {
@@ -235,7 +236,7 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
           onHeaderClick={handleHeaderClick}
           onResizeMouseDown={handleResizeMouseDown}
         />
-        <TableBodyComponent rows={rows} columns={columns} columnWidths={columnWidths} imageColumnIndex={imageColumnIndex} />
+        <TableBodyComponent crmUrl={crmUrl} rows={rows} columns={columns} columnWidths={columnWidths} imageColumnIndex={imageColumnIndex} />
       </Table>
       {isPagingEnabled ? (
         <PaginationComponent currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />

@@ -18,6 +18,7 @@
       -->
     </external-service-usage>
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
+    <property name="crmUrl" display-name-key="CRM Url" description-key="Url of the dynamics CRM instance where this control is hosted" of-type="SingleLine.Text" usage="input" required="true" />
     <property name="data" display-name-key="Data" description-key="Json Data; can have 1,048,576 characters" of-type="Multiple" usage="bound" required="true" />
     <property name="columnHeaders" display-name-key="Column Headers" description-key="Defines the column headers for the table" of-type="SingleLine.Text" usage="input" required="true" />
     <property name="cellTypes" display-name-key="Cell Types" description-key="Defines the cell types for the table" of-type="SingleLine.Text" usage="input" required="true" />

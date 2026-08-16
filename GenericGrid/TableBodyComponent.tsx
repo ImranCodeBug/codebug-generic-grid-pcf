@@ -6,13 +6,14 @@ import { getCellText, getCrmRecordUrl } from "./CellRenderingService";
 import ImageCellComponent from "./ImageCellComponent";
 
 interface ITableBodyComponentProps {
+  crmUrl: string;
   rows: IGridRow[];
   columns: string[];
   columnWidths: number[];
   imageColumnIndex: number;
 }
 
-const TableBodyComponent: React.FunctionComponent<ITableBodyComponentProps> = ({ rows, columns, columnWidths, imageColumnIndex }) => {
+const TableBodyComponent: React.FunctionComponent<ITableBodyComponentProps> = ({ crmUrl, rows, columns, columnWidths, imageColumnIndex }) => {
   return (
     <TableBody>
       {rows.map((row) => (
@@ -43,7 +44,7 @@ const TableBodyComponent: React.FunctionComponent<ITableBodyComponentProps> = ({
                 ? cellValue.values.join(", ")
                 : isCrmObjectCell(cellValue)
                   ? (
-                    <a className="cg-grid__cell-link" href={getCrmRecordUrl(cellValue)} target="_blank" rel="noopener noreferrer">
+                    <a className="cg-grid__cell-link" href={getCrmRecordUrl(crmUrl, cellValue)} target="_blank" rel="noopener noreferrer">
                       {cellValue.name && cellValue.name.length > 0 ? cellValue.name : "unknown"}
                     </a>
                   )

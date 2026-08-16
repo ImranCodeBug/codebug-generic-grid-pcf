@@ -52,10 +52,11 @@ export class GenericGrid implements ComponentFramework.ReactControl<IInputs, IOu
         const isSortable = context.parameters.isSortable.raw === "1";
         const columns = getArrayElements(context.parameters.columnHeaders.raw);
         const columnTypes = getArrayElements(context.parameters.cellTypes.raw);
+        const crmUrl = context.parameters.crmUrl.raw ?? "";
         const pageSize = context.parameters.pageSize.raw ?? 0;
         const data = context.parameters.data.raw ?? "[]";
         return React.createElement(
-            MainContainerComponent, { data: data, columns: columns, columnTypes: columnTypes, isSortable: isSortable, pageSize: pageSize }
+            MainContainerComponent, { data: data, columns: columns, columnTypes: columnTypes, crmUrl: crmUrl, isSortable: isSortable, pageSize: pageSize }
         );
     }
 

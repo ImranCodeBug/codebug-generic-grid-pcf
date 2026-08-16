@@ -1,8 +1,6 @@
 import { isCrmObjectCell, isEmailCell, isImageCell, isLinkCell, isPositionCell, isPositionObject, isTextArrayCell } from "./CellGuards";
 import { ICrmObject, IEmailCell, IGridCell, IImage, ILinkCell, ITextArray, TCellType } from "./CellModels";
 
-const crmUrl = "https://methods-automation.crm11.dynamics.com/";
-
 export const createEmailCell = (value: string): IEmailCell => {
   return {
     kind: "email",
@@ -50,7 +48,7 @@ export const createCrmObjectCell = (value: unknown): ICrmObject | null => {
   };
 };
 
-export const getCrmRecordUrl = (crmObjectCell: ICrmObject): string => {
+export const getCrmRecordUrl = (crmUrl:string, crmObjectCell: ICrmObject): string => {
   return `${crmUrl}main.aspx?etn=${encodeURIComponent(crmObjectCell.entityname)}&pagetype=entityrecord&id=${encodeURIComponent(crmObjectCell.id)}`;
 };
 
