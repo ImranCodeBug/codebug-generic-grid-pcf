@@ -1,4 +1,17 @@
 # Welcome to Codebug Pai Grid
+<p align="center">
+  <span>
+    <a href="https://dev.azure.com/code-bug/code-bug/_build/latest?definitionId=30&branchName=main">
+      <img src="https://dev.azure.com/code-bug/code-bug/_apis/build/status%2FImranCodeBug.codebug-generic-grid-pcf?branchName=main" alt="Build Status">
+    </a>
+  </span>
+
+  <span style="margin-left: 10px;">
+    <a href="https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=imran-chowdhury-aa160237" target="_blank">
+      <img src="https://img.shields.io/badge/Follow%20on%20LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white" alt="Follow on LinkedIn">
+    </a>
+  </span>
+</p>
 
 Codebug Pai Grid is a virtual Power Apps Component Framework (PCF) control that renders a JSON array as a Fluent UI table. Columns are read left to right from the property order in each JSON object. `columnHeaders` provides the visible headings and `cellTypes` selects the renderer for each matching position.
 
