@@ -20,6 +20,7 @@
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS -->
     <property name="data" display-name-key="Data" description-key="Json Data; can have 1,048,576 characters" of-type="Multiple" usage="bound" required="true" />
     <property name="columnHeaders" display-name-key="Column Headers" description-key="Defines the column headers for the table" of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="cellTypes" display-name-key="Cell Types" description-key="Defines the cell types for the table" of-type="SingleLine.Text" usage="input" required="true" />
     <property name="isSortable" display-name-key="Sort setting" description-key="Defines if the table is sortable"  of-type="Enum" usage="input" required="false" >
       <value name="No" display-name-key="No" description-key="Not sortable.">0</value>
       <value name="Yes" display-name-key="Yes" description-key="Sortable.">1</value>

@@ -3,7 +3,7 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import * as React from "react";
 import MainContainerComponent from "./MainContainerComponent";
 
-const getColumnHeaders = (rawColumnHeaders: string | null): string[] => {
+const getArrayElements = (rawColumnHeaders: string | null): string[] => {
     if (!rawColumnHeaders) {
         return [];
     }
@@ -50,11 +50,12 @@ export class GenericGrid implements ComponentFramework.ReactControl<IInputs, IOu
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
         const isSortable = context.parameters.isSortable.raw === "1";
-        const columns = getColumnHeaders(context.parameters.columnHeaders.raw);
+        const columns = getArrayElements(context.parameters.columnHeaders.raw);
+        const columnTypes = getArrayElements(context.parameters.cellTypes.raw);
         const pageSize = context.parameters.pageSize.raw ?? 0;
         const data = context.parameters.data.raw ?? "[]";
         return React.createElement(
-            MainContainerComponent, { data: data, columns: columns, isSortable: isSortable, pageSize: pageSize }
+            MainContainerComponent, { data: data, columns: columns, columnTypes: columnTypes, isSortable: isSortable, pageSize: pageSize }
         );
     }
 

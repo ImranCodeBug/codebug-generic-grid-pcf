@@ -12,6 +12,7 @@ import dummyData from "./dummyData.json";
 interface IMainContainerComponentProps {
   data: string;
   columns: string[];
+  columnTypes: string[];
   isSortable: boolean;
   pageSize: number;
 }
@@ -33,6 +34,11 @@ interface IImage {
   url: string;
 }
 
+interface ILinkCell {
+  kind: "link";
+  url: string;
+}
+
 interface ITextArray {
   kind: "text-array";
   values: string[];
@@ -46,10 +52,10 @@ interface ICrmObject {
 
 const crmUrl = "https://methods-automation.crm11.dynamics.com/";
 
-type IGridCell = string | number | boolean | IEmailCell | IPosition | IImage | ITextArray | ICrmObject;
-type IGridRow = [ IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell];
+type IGridCell = string | number | boolean | IEmailCell | IPosition | IImage | ILinkCell | ITextArray | ICrmObject;
+type IGridRow = IGridCell[];
 
-type TCellTypeHint = "default" | "image";
+type TCellType = "text" | "email" | "crmLink" | "number" | "boolean" | "array" | "location" | "image" | "link";
 
 const createEmailCell = (value: string): IEmailCell => {
   return {
@@ -61,6 +67,13 @@ const createEmailCell = (value: string): IEmailCell => {
 const createImageCell = (url: string): IImage => {
   return {
     kind: "image",
+    url
+  };
+};
+
+const createLinkCell = (url: string): ILinkCell => {
+  return {
+    kind: "link",
     url
   };
 };
@@ -78,6 +91,10 @@ const isEmailCell = (cellValue: IGridCell): cellValue is IEmailCell => {
 
 const isImageCell = (cellValue: IGridCell): cellValue is IImage => {
   return typeof cellValue === "object" && cellValue !== null && "kind" in cellValue && cellValue.kind === "image";
+};
+
+const isLinkCell = (cellValue: IGridCell): cellValue is ILinkCell => {
+  return typeof cellValue === "object" && cellValue !== null && "kind" in cellValue && cellValue.kind === "link";
 };
 
 const isTextArrayCell = (cellValue: IGridCell): cellValue is ITextArray => {
@@ -135,39 +152,32 @@ const getCrmRecordUrl = (crmObjectCell: ICrmObject): string => {
   return `${crmUrl}main.aspx?etn=${encodeURIComponent(crmObjectCell.entityname)}&pagetype=entityrecord&id=${encodeURIComponent(crmObjectCell.id)}`;
 };
 
-const getCellType = (value: unknown, hint: TCellTypeHint = "default"): IGridCell => {
-  if (hint === "image") {
-    if (typeof value === "string") {
-      return createImageCell(value.trim());
-    }
+const createCellForType = (value: unknown, columnType?: string): IGridCell => {
+  const cellType: TCellType = columnType as TCellType;
 
-    return createImageCell("");
+  switch (cellType) {
+    case "email":
+      return createEmailCell(typeof value === "string" ? value.trim() : "");
+    case "crmLink":
+      return createCrmObjectCell(value) ?? "";
+    case "number":
+      return typeof value === "number" ? value : "";
+    case "boolean":
+      return typeof value === "boolean" ? value : "";
+    case "array":
+      return Array.isArray(value) && value.every((item) => typeof item === "string")
+        ? createTextArrayCell(value)
+        : createTextArrayCell([]);
+    case "location":
+      return isPositionObject(value) ? value : "";
+    case "image":
+      return createImageCell(typeof value === "string" ? value.trim() : "");
+    case "link":
+      return createLinkCell(typeof value === "string" ? value.trim() : "");
+    case "text":
+    default:
+      return typeof value === "string" ? value : "";
   }
-
-  if (isPositionObject(value)) {
-    return value;
-  }
-
-  if (Array.isArray(value) && value.every((item) => typeof item === "string")) {
-    return createTextArrayCell(value);
-  }
-
-  const crmObjectCell = createCrmObjectCell(value);
-  if (crmObjectCell) {
-    return crmObjectCell;
-  }
-
-  if (typeof value === "string") {
-    const trimmedValue = value.trim();
-    const isEmailValue = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedValue);
-    return isEmailValue ? createEmailCell(trimmedValue) : value;
-  }
-
-  if (typeof value === "number" || typeof value === "boolean") {
-    return value;
-  }
-
-  return "";
 };
 
 const getCellText = (cellValue: IGridCell): string => {
@@ -176,6 +186,10 @@ const getCellText = (cellValue: IGridCell): string => {
   }
 
   if (isImageCell(cellValue)) {
+    return cellValue.url;
+  }
+
+  if (isLinkCell(cellValue)) {
     return cellValue.url;
   }
 
@@ -194,20 +208,24 @@ const getCellText = (cellValue: IGridCell): string => {
   return String(cellValue);
 };
 
-const gridData: IGridRow[] = dummyData.map((item: IdDataRow) => {
-  return [
-    getCellType(item.picture, "image"),
-    getCellType(item.name),    
-    getCellType(item.email),
-    getCellType(item.crmObject),
-    getCellType(item.phone),
-    getCellType(item.age),
-    getCellType(item.balance),
-    getCellType(item.isActive),
-    getCellType(item.tags)
-    
-  ];
-});
+const getGridData = (columnTypes: string[]): IGridRow[] => {
+  return dummyData.map((item: IdDataRow) => {
+    const values: unknown[] = [
+      item.picture,
+      item.name,
+      item.email,
+      item.crmObject,
+      item.phone,
+      item.product,
+      item.balance,
+      item.isActive,
+      item.tags,
+      item.product
+    ];
+
+    return values.map((value, columnIndex) => createCellForType(value, columnTypes[columnIndex])) as IGridRow;
+  });
+};
 
 const minColumnWidthPx = 64;
 const imageColumnWidthPercent = 4;
@@ -248,6 +266,10 @@ const getSortValue = (row: IGridRow, columnIndex: number): string | number | boo
     return cellValue.url;
   }
 
+  if (isLinkCell(cellValue)) {
+    return cellValue.url;
+  }
+
   if (isTextArrayCell(cellValue)) {
     return cellValue.values.join(", ");
   }
@@ -263,7 +285,9 @@ const getSortValue = (row: IGridRow, columnIndex: number): string | number | boo
   return cellValue;
 };
 
-const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = ({ data, columns, isSortable, pageSize }) => {
+const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = ({ data, columns, columnTypes, isSortable, pageSize }) => {
+  const gridData = React.useMemo(() => getGridData(columnTypes), [columnTypes]);
+
   const imageColumnIndex = React.useMemo(() => {
     const firstRow = gridData[0];
 
@@ -273,7 +297,7 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
 
     const detectedIndex = firstRow.findIndex((cellValue) => isImageCell(cellValue));
     return detectedIndex >= 0 && detectedIndex < columns.length ? detectedIndex : -1;
-  }, [columns.length]);
+  }, [columns.length, gridData]);
 
   const gridRef = React.useRef<HTMLDivElement | null>(null);
   const dragStateRef = React.useRef<{
@@ -307,7 +331,7 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
     });
 
     return sortState.direction === "ascending" ? sortedRows : sortedRows.reverse();
-  }, [sortState]);
+  }, [gridData, sortState]);
 
   const isPagingEnabled = pageSize > 0;
   const totalPages = isPagingEnabled ? Math.max(1, Math.ceil(sortedRows.length / pageSize)) : 1;
@@ -490,6 +514,17 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
                     ? <ImageCell imageCell={cellValue} altText={`${getCellText(row[1])} image`} />
                     : isEmailCell(cellValue)
                     ? <a className="cg-grid__cell-link" href={`mailto:${cellValue.value}`}>{cellValue.value}</a>
+                    : isLinkCell(cellValue)
+                    ? (
+                      <a
+                        className="cg-grid__cell-link"
+                        href={cellValue.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {cellValue.url}
+                      </a>
+                    )
                     : isTextArrayCell(cellValue)
                     ? cellValue.values.join(", ")
                     : IsCRMObjectCell(cellValue)
