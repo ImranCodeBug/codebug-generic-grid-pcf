@@ -15,19 +15,7 @@ interface IMainContainerComponentProps {
   pageSize: number;
 }
 
-interface IDataRow {
-  picture?: unknown;
-  name?: unknown;
-  email?: unknown;
-  crmObject?: unknown;
-  phone?: unknown;
-  product?: unknown;
-  balance?: unknown;
-  isActive?: unknown;
-  tags?: unknown;
-}
-
-const getGridData = (data: string, columnTypes: string[]): IGridRow[] => {
+const createGridRows = (data: string, columnTypes: string[], columnCount: number): IGridRow[] => {
   try {
     const parsedData: unknown = JSON.parse(data);
 
@@ -36,18 +24,11 @@ const getGridData = (data: string, columnTypes: string[]): IGridRow[] => {
     }
 
     return parsedData.map((item) => {
-      const dataRow = typeof item === "object" && item !== null ? item as IDataRow : {};
-    const values: unknown[] = [
-        dataRow.picture,
-        dataRow.name,
-        dataRow.email,
-        dataRow.crmObject,
-        dataRow.phone,
-        dataRow.product,
-        dataRow.balance,
-        dataRow.isActive,
-        dataRow.tags
-    ];
+      if (typeof item !== "object" || item === null || Array.isArray(item)) {
+        return [];
+      }
+
+      const values = Object.values(item as Record<string, unknown>).slice(0, columnCount);
 
       return values.map((value, columnIndex) => createCellForType(value, columnTypes[columnIndex]));
     });
@@ -90,7 +71,7 @@ const getSortValue = (row: IGridRow, columnIndex: number): string | number | boo
 };
 
 const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = ({ data, columns, columnTypes, isSortable, pageSize }) => {
-  const gridData = React.useMemo(() => getGridData(data, columnTypes), [data, columnTypes]);
+  const gridData = React.useMemo(() => createGridRows(data, columnTypes, columns.length), [data, columnTypes, columns.length]);
 
   const imageColumnIndex = React.useMemo(() => {
     const firstRow = gridData[0];
