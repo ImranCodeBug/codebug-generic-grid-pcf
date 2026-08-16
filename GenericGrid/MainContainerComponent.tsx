@@ -1,13 +1,11 @@
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHeader,
-  TableHeaderCell,
-  TableRow,
-} from "@fluentui/react-components";
+import { Table } from "@fluentui/react-components";
 import * as React from "react";
-import dummyData from "./dummyData.json";
+import { isImageCell } from "./CellGuards";
+import { IGridRow, TSortDirection } from "./CellModels";
+import { createCellForType, getCellText } from "./CellRenderingService";
+import PaginationComponent from "./PaginationComponent";
+import TableBodyComponent from "./TableBodyComponent";
+import TableHeaderComponent from "./TableHeaderComponent";
 
 interface IMainContainerComponentProps {
   data: string;
@@ -17,219 +15,49 @@ interface IMainContainerComponentProps {
   pageSize: number;
 }
 
-type IdDataRow = (typeof dummyData)[number];
-
-interface IEmailCell {
-  kind: "email";
-  value: string;
+interface IDataRow {
+  picture?: unknown;
+  name?: unknown;
+  email?: unknown;
+  crmObject?: unknown;
+  phone?: unknown;
+  product?: unknown;
+  balance?: unknown;
+  isActive?: unknown;
+  tags?: unknown;
 }
 
-interface IPosition {
-  latitude: number;
-  longitude: number;
-}
+const getGridData = (data: string, columnTypes: string[]): IGridRow[] => {
+  try {
+    const parsedData: unknown = JSON.parse(data);
 
-interface IImage {
-  kind: "image";
-  url: string;
-}
+    if (!Array.isArray(parsedData)) {
+      return [];
+    }
 
-interface ILinkCell {
-  kind: "link";
-  url: string;
-}
-
-interface ITextArray {
-  kind: "text-array";
-  values: string[];
-}
-
-interface ICrmObject {
-  entityname: string;
-  id: string;
-  name?: string;
-}
-
-const crmUrl = "https://methods-automation.crm11.dynamics.com/";
-
-type IGridCell = string | number | boolean | IEmailCell | IPosition | IImage | ILinkCell | ITextArray | ICrmObject;
-type IGridRow = IGridCell[];
-
-type TCellType = "text" | "email" | "crmLink" | "number" | "boolean" | "array" | "location" | "image" | "link";
-
-const createEmailCell = (value: string): IEmailCell => {
-  return {
-    kind: "email",
-    value
-  };
-};
-
-const createImageCell = (url: string): IImage => {
-  return {
-    kind: "image",
-    url
-  };
-};
-
-const createLinkCell = (url: string): ILinkCell => {
-  return {
-    kind: "link",
-    url
-  };
-};
-
-const createTextArrayCell = (values: string[]): ITextArray => {
-  return {
-    kind: "text-array",
-    values
-  };
-};
-
-const isEmailCell = (cellValue: IGridCell): cellValue is IEmailCell => {
-  return typeof cellValue === "object" && cellValue !== null && "kind" in cellValue && cellValue.kind === "email";
-};
-
-const isImageCell = (cellValue: IGridCell): cellValue is IImage => {
-  return typeof cellValue === "object" && cellValue !== null && "kind" in cellValue && cellValue.kind === "image";
-};
-
-const isLinkCell = (cellValue: IGridCell): cellValue is ILinkCell => {
-  return typeof cellValue === "object" && cellValue !== null && "kind" in cellValue && cellValue.kind === "link";
-};
-
-const isTextArrayCell = (cellValue: IGridCell): cellValue is ITextArray => {
-  return typeof cellValue === "object" && cellValue !== null && "kind" in cellValue && cellValue.kind === "text-array";
-};
-
-const isPositionObject = (value: unknown): value is { latitude: number; longitude: number } => {
-  if (typeof value !== "object" || value === null) {
-    return false;
-  }
-
-  const keys = Object.keys(value as Record<string, unknown>);
-  if (keys.length !== 2 || !keys.includes("latitude") || !keys.includes("longitude")) {
-    return false;
-  }
-
-  const candidate = value as { latitude?: unknown; longitude?: unknown };
-  return typeof candidate.latitude === "number" && typeof candidate.longitude === "number";
-};
-
-const isPositionCell = (cellValue: IGridCell): cellValue is IPosition => {
-  return isPositionObject(cellValue);
-};
-
-const IsCRMObjectCell = (cellValue: IGridCell): cellValue is ICrmObject => {
-  if (typeof cellValue !== "object" || cellValue === null || Array.isArray(cellValue)) {
-    return false;
-  }
-
-  const candidate = cellValue as unknown as Record<string, unknown>;
-  const rawEntityName = candidate.entityname ?? candidate.entityName;
-  return typeof rawEntityName === "string" && rawEntityName.trim().length > 0 && typeof candidate.id === "string" && candidate.id.trim().length > 0;
-};
-
-const createCrmObjectCell = (value: unknown): ICrmObject | null => {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) {
-    return null;
-  }
-
-  const candidate = value as Record<string, unknown>;
-  const rawEntityName = candidate.entityname ?? candidate.entityName;
-
-  if (typeof rawEntityName !== "string" || rawEntityName.trim().length === 0 || typeof candidate.id !== "string" || candidate.id.trim().length === 0) {
-    return null;
-  }
-
-  return {
-    entityname: rawEntityName.trim(),
-    id: candidate.id.trim(),
-    name: typeof candidate.name === "string" ? candidate.name.trim() : undefined
-  };
-};
-
-const getCrmRecordUrl = (crmObjectCell: ICrmObject): string => {
-  return `${crmUrl}main.aspx?etn=${encodeURIComponent(crmObjectCell.entityname)}&pagetype=entityrecord&id=${encodeURIComponent(crmObjectCell.id)}`;
-};
-
-const createCellForType = (value: unknown, columnType?: string): IGridCell => {
-  const cellType: TCellType = columnType as TCellType;
-
-  switch (cellType) {
-    case "email":
-      return createEmailCell(typeof value === "string" ? value.trim() : "");
-    case "crmLink":
-      return createCrmObjectCell(value) ?? "";
-    case "number":
-      return typeof value === "number" ? value : "";
-    case "boolean":
-      return typeof value === "boolean" ? value : "";
-    case "array":
-      return Array.isArray(value) && value.every((item) => typeof item === "string")
-        ? createTextArrayCell(value)
-        : createTextArrayCell([]);
-    case "location":
-      return isPositionObject(value) ? value : "";
-    case "image":
-      return createImageCell(typeof value === "string" ? value.trim() : "");
-    case "link":
-      return createLinkCell(typeof value === "string" ? value.trim() : "");
-    case "text":
-    default:
-      return typeof value === "string" ? value : "";
-  }
-};
-
-const getCellText = (cellValue: IGridCell): string => {
-  if (isEmailCell(cellValue)) {
-    return cellValue.value;
-  }
-
-  if (isImageCell(cellValue)) {
-    return cellValue.url;
-  }
-
-  if (isLinkCell(cellValue)) {
-    return cellValue.url;
-  }
-
-  if (isTextArrayCell(cellValue)) {
-    return cellValue.values.join(", ");
-  }
-
-  if (isPositionCell(cellValue)) {
-    return `${cellValue.latitude},${cellValue.longitude}`;
-  }
-
-  if (IsCRMObjectCell(cellValue)) {
-    return cellValue.name && cellValue.name.length > 0 ? cellValue.name : "unknown";
-  }
-
-  return String(cellValue);
-};
-
-const getGridData = (columnTypes: string[]): IGridRow[] => {
-  return dummyData.map((item: IdDataRow) => {
+    return parsedData.map((item) => {
+      const dataRow = typeof item === "object" && item !== null ? item as IDataRow : {};
     const values: unknown[] = [
-      item.picture,
-      item.name,
-      item.email,
-      item.crmObject,
-      item.phone,
-      item.product,
-      item.balance,
-      item.isActive,
-      item.tags,
-      item.product
+        dataRow.picture,
+        dataRow.name,
+        dataRow.email,
+        dataRow.crmObject,
+        dataRow.phone,
+        dataRow.product,
+        dataRow.balance,
+        dataRow.isActive,
+        dataRow.tags
     ];
 
-    return values.map((value, columnIndex) => createCellForType(value, columnTypes[columnIndex])) as IGridRow;
-  });
+      return values.map((value, columnIndex) => createCellForType(value, columnTypes[columnIndex]));
+    });
+  } catch {
+    return [];
+  }
 };
 
 const minColumnWidthPx = 64;
 const imageColumnWidthPercent = 4;
-type TSortDirection = "ascending" | "descending";
 
 const getInitialColumnWidths = (columnCount: number, imageColumnIndex: number): number[] => {
   if (columnCount <= 0) {
@@ -258,35 +86,11 @@ const getSortValue = (row: IGridRow, columnIndex: number): string | number | boo
     return "";
   }
 
-  if (isEmailCell(cellValue)) {
-    return cellValue.value;
-  }
-
-  if (isImageCell(cellValue)) {
-    return cellValue.url;
-  }
-
-  if (isLinkCell(cellValue)) {
-    return cellValue.url;
-  }
-
-  if (isTextArrayCell(cellValue)) {
-    return cellValue.values.join(", ");
-  }
-
-  if (isPositionCell(cellValue)) {
-    return getCellText(cellValue);
-  }
-
-  if (IsCRMObjectCell(cellValue)) {
-    return cellValue.name && cellValue.name.length > 0 ? cellValue.name : "unknown";
-  }
-
-  return cellValue;
+  return typeof cellValue === "number" || typeof cellValue === "boolean" ? cellValue : getCellText(cellValue);
 };
 
 const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = ({ data, columns, columnTypes, isSortable, pageSize }) => {
-  const gridData = React.useMemo(() => getGridData(columnTypes), [columnTypes]);
+  const gridData = React.useMemo(() => getGridData(data, columnTypes), [data, columnTypes]);
 
   const imageColumnIndex = React.useMemo(() => {
     const firstRow = gridData[0];
@@ -439,166 +243,21 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
     });
   };
 
-  const ImageCell: React.FunctionComponent<{ imageCell: IImage; altText: string }> = ({ imageCell, altText }) => {
-    const [isBroken, setIsBroken] = React.useState<boolean>(imageCell.url.length === 0);
-
-    if (isBroken) {
-      return <span className="cg-grid__image-fallback" aria-label="Image unavailable">?</span>;
-    }
-
-    return (
-      <img
-        className="cg-grid__image"
-        src={imageCell.url}
-        alt={altText}
-        onError={() => setIsBroken(true)}
-      />
-    );
-  };
-
   return (
     <div className="cg-grid" ref={gridRef}>
       <Table aria-label="Dynamics style subgrid" className="cg-grid__table">
-        <TableHeader>
-          <TableRow>
-            {columns.map((column, columnIndex) => {
-              const isImageColumn = columnIndex === imageColumnIndex;
-              const nextIsImageColumn = columnIndex + 1 === imageColumnIndex;
-              const isResizable = columnIndex < columns.length - 1 && !isImageColumn && !nextIsImageColumn;
-              const isSortedColumn = sortState?.columnIndex === columnIndex;
-              const sortGlyph = sortState?.direction === "ascending" ? "▲" : "▼";
-
-              return (
-                <TableHeaderCell key={column} className="cg-grid__header-cell" style={getColumnWidthStyle(columnIndex)}>
-                  <div className="cg-grid__header-content">
-                    <button
-                      type="button"
-                      className="cg-grid__sort-button"
-                      onClick={() => handleHeaderClick(columnIndex)}
-                      aria-label={`Sort by ${column}`}
-                    >
-                      <span className="cg-grid__sort-label">{column}</span>
-                      {isSortedColumn ? <span className="cg-grid__sort-icon" aria-hidden="true">{sortGlyph}</span> : null}
-                    </button>
-                  </div>
-                  {isResizable ? (
-                    <button
-                      type="button"
-                      className="cg-grid__resize-handle"
-                      onMouseDown={(event) => handleResizeMouseDown(event, columnIndex)}
-                      aria-label={`Resize ${column} column`}
-                      tabIndex={-1}
-                    />
-                  ) : null}
-                </TableHeaderCell>
-              );
-            })}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={`${getCellText(row[1])}-${getCellText(row[3])}`} className="cg-grid__row">
-              {row.slice(0, columns.length).map((cellValue, columnIndex) => (
-                <TableCell
-                  key={`${getCellText(row[1])}-${columnIndex}`}
-                  className={
-                    columnIndex === imageColumnIndex
-                      ? "cg-grid__cell cg-grid__cell--image"
-                      : columnIndex === 1
-                        ? "cg-grid__cell cg-grid__cell--name"
-                        : "cg-grid__cell"
-                  }
-                  style={getColumnWidthStyle(columnIndex)}
-                >
-                  {isImageCell(cellValue)
-                    ? <ImageCell imageCell={cellValue} altText={`${getCellText(row[1])} image`} />
-                    : isEmailCell(cellValue)
-                    ? <a className="cg-grid__cell-link" href={`mailto:${cellValue.value}`}>{cellValue.value}</a>
-                    : isLinkCell(cellValue)
-                    ? (
-                      <a
-                        className="cg-grid__cell-link"
-                        href={cellValue.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {cellValue.url}
-                      </a>
-                    )
-                    : isTextArrayCell(cellValue)
-                    ? cellValue.values.join(", ")
-                    : IsCRMObjectCell(cellValue)
-                      ? (
-                        <a
-                          className="cg-grid__cell-link"
-                          href={getCrmRecordUrl(cellValue)}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {cellValue.name && cellValue.name.length > 0 ? cellValue.name : "unknown"}
-                        </a>
-                      )
-                    : isPositionCell(cellValue)
-                      ? (
-                        <a
-                          className="cg-grid__cell-link cg-grid__cell-link--map"
-                          href={`https://www.google.com/maps?q=${cellValue.latitude},${cellValue.longitude}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`Open location in Google Maps (${cellValue.latitude}, ${cellValue.longitude})`}
-                        >
-                          <svg className="cg-grid__map-icon" width="16" height="16" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-                            <path d="M6.25 4.75a1.5 1.5 0 0 0-1.5 1.5v11.5a1.5 1.5 0 0 0 1.5 1.5h11.5a1.5 1.5 0 0 0 1.5-1.5v-4a1 1 0 1 1 2 0v4a3.5 3.5 0 0 1-3.5 3.5H6.25a3.5 3.5 0 0 1-3.5-3.5V6.25a3.5 3.5 0 0 1 3.5-3.5h4a1 1 0 1 1 0 2h-4Zm6.5-1a1 1 0 0 1 1-1h6.5a1 1 0 0 1 1 1v6.5a1 1 0 1 1-2 0V6.164l-4.793 4.793a1 1 0 1 1-1.414-1.414l4.793-4.793H13.75a1 1 0 0 1-1-1Z" fill="currentColor"/>
-                          </svg>
-                        </a>
-                      )
-                    : typeof cellValue === "boolean" ? (cellValue ? "Yes" : "No") : cellValue}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
+        <TableHeaderComponent
+          columns={columns}
+          imageColumnIndex={imageColumnIndex}
+          columnWidths={columnWidths}
+          sortState={sortState}
+          onHeaderClick={handleHeaderClick}
+          onResizeMouseDown={handleResizeMouseDown}
+        />
+        <TableBodyComponent rows={rows} columns={columns} columnWidths={columnWidths} imageColumnIndex={imageColumnIndex} />
       </Table>
       {isPagingEnabled ? (
-        <div className="cg-grid__pagination" role="navigation" aria-label="Pagination">
-          <button
-            type="button"
-            className="cg-grid__page-button cg-grid__page-button--nav"
-            onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}
-            disabled={currentPage === 1}
-            aria-label="Go to previous page"
-          >
-            Previous
-          </button>
-          <div className="cg-grid__page-list">
-            {Array.from({ length: totalPages }, (_, index) => {
-              const pageNumber = index + 1;
-              const isCurrentPage = currentPage === pageNumber;
-
-              return (
-                <button
-                  key={pageNumber}
-                  type="button"
-                  className={isCurrentPage ? "cg-grid__page-button cg-grid__page-button--current" : "cg-grid__page-button"}
-                  onClick={() => setCurrentPage(pageNumber)}
-                  aria-current={isCurrentPage ? "page" : undefined}
-                  aria-label={`Go to page ${pageNumber}`}
-                >
-                  {pageNumber}
-                </button>
-              );
-            })}
-          </div>
-          <button
-            type="button"
-            className="cg-grid__page-button cg-grid__page-button--nav"
-            onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}
-            disabled={currentPage === totalPages}
-            aria-label="Go to next page"
-          >
-            Next
-          </button>
-        </div>
+        <PaginationComponent currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
       ) : null}
     </div>
   );
