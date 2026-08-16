@@ -1,0 +1,64 @@
+
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger: 
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - GenericGrid/*
+    exclude:
+      - CodebugPaiGrid/*
+
+parameters:
+  - name : 'ProjectName'
+    type: string
+    displayName: 'Name of the cdsproj under solutions folder'
+    default: 'CodebugPaiGrid.cdsproj'
+    
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '24.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run refreshTypes
+    npm run build
+  displayName: 'npm install and build'
+
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    workingDirectory: 'CodebugNotesAttachmentViewer/'
+  displayName: 'Building Solution'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publishing Artifact'
+  inputs:
+    PathtoPublish: '$(System.DefaultWorkingDirectory)/CodebugPaiGrid/bin/Debug/'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
+- task: GitHubRelease@1
+  inputs:
+    gitHubConnection: 'ImranCodeBug'
+    repositoryName: '$(Build.Repository.Name)'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'userSpecifiedTag'
+    tag: 'Codebug-$(Build.BuildNumber)'
+    title: 'Release Main Branch'
+    assets: '$(System.DefaultWorkingDirectory)/CodebugPaiGrid/bin/Debug/*.zip'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
