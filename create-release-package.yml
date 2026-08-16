@@ -40,7 +40,7 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    workingDirectory: 'CodebugNotesAttachmentViewer/'
+    workingDirectory: 'CodebugPaiGrid/'
   displayName: 'Building Solution'
 
 - task: PublishBuildArtifacts@1
