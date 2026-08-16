@@ -2,7 +2,7 @@
 
 Codebug Pai Grid is a virtual Power Apps Component Framework (PCF) control that renders a JSON array as a Fluent UI table. Columns are read left to right from the property order in each JSON object. `columnHeaders` provides the visible headings and `cellTypes` selects the renderer for each matching position.
 
-![Image](Images\Lookandfeel.png)
+![Codebug Pai Grid](Images/Lookandfeel.png)
 
 ## Configuration
 
