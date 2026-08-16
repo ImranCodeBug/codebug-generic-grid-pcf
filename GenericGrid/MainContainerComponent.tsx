@@ -33,6 +33,11 @@ interface IImage {
   url: string;
 }
 
+interface ITextArray {
+  kind: "text-array";
+  values: string[];
+}
+
 interface ICrmObject {
   entityname: string;
   id: string;
@@ -41,7 +46,7 @@ interface ICrmObject {
 
 const crmUrl = "https://methods-automation.crm11.dynamics.com/";
 
-type IGridCell = string | number | boolean | IEmailCell | IPosition | IImage | ICrmObject;
+type IGridCell = string | number | boolean | IEmailCell | IPosition | IImage | ITextArray | ICrmObject;
 type IGridRow = [ IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell, IGridCell];
 
 type TCellTypeHint = "default" | "image";
@@ -60,12 +65,23 @@ const createImageCell = (url: string): IImage => {
   };
 };
 
+const createTextArrayCell = (values: string[]): ITextArray => {
+  return {
+    kind: "text-array",
+    values
+  };
+};
+
 const isEmailCell = (cellValue: IGridCell): cellValue is IEmailCell => {
   return typeof cellValue === "object" && cellValue !== null && "kind" in cellValue && cellValue.kind === "email";
 };
 
 const isImageCell = (cellValue: IGridCell): cellValue is IImage => {
   return typeof cellValue === "object" && cellValue !== null && "kind" in cellValue && cellValue.kind === "image";
+};
+
+const isTextArrayCell = (cellValue: IGridCell): cellValue is ITextArray => {
+  return typeof cellValue === "object" && cellValue !== null && "kind" in cellValue && cellValue.kind === "text-array";
 };
 
 const isPositionObject = (value: unknown): value is { latitude: number; longitude: number } => {
@@ -132,6 +148,10 @@ const getCellType = (value: unknown, hint: TCellTypeHint = "default"): IGridCell
     return value;
   }
 
+  if (Array.isArray(value) && value.every((item) => typeof item === "string")) {
+    return createTextArrayCell(value);
+  }
+
   const crmObjectCell = createCrmObjectCell(value);
   if (crmObjectCell) {
     return crmObjectCell;
@@ -159,6 +179,10 @@ const getCellText = (cellValue: IGridCell): string => {
     return cellValue.url;
   }
 
+  if (isTextArrayCell(cellValue)) {
+    return cellValue.values.join(", ");
+  }
+
   if (isPositionCell(cellValue)) {
     return `${cellValue.latitude},${cellValue.longitude}`;
   }
@@ -180,7 +204,7 @@ const gridData: IGridRow[] = dummyData.map((item: IdDataRow) => {
     getCellType(item.age),
     getCellType(item.balance),
     getCellType(item.isActive),
-    getCellType(item.positioning)
+    getCellType(item.tags)
     
   ];
 });
@@ -222,6 +246,10 @@ const getSortValue = (row: IGridRow, columnIndex: number): string | number | boo
 
   if (isImageCell(cellValue)) {
     return cellValue.url;
+  }
+
+  if (isTextArrayCell(cellValue)) {
+    return cellValue.values.join(", ");
   }
 
   if (isPositionCell(cellValue)) {
@@ -462,6 +490,8 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
                     ? <ImageCell imageCell={cellValue} altText={`${getCellText(row[1])} image`} />
                     : isEmailCell(cellValue)
                     ? <a className="cg-grid__cell-link" href={`mailto:${cellValue.value}`}>{cellValue.value}</a>
+                    : isTextArrayCell(cellValue)
+                    ? cellValue.values.join(", ")
                     : IsCRMObjectCell(cellValue)
                       ? (
                         <a

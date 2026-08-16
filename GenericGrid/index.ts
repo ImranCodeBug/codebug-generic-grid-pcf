@@ -3,6 +3,21 @@ import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import * as React from "react";
 import MainContainerComponent from "./MainContainerComponent";
 
+const getColumnHeaders = (rawColumnHeaders: string | null): string[] => {
+    if (!rawColumnHeaders) {
+        return [];
+    }
+
+    try {
+        const parsedColumnHeaders: unknown = JSON.parse(rawColumnHeaders);
+        return Array.isArray(parsedColumnHeaders) && parsedColumnHeaders.every((header) => typeof header === "string")
+            ? parsedColumnHeaders
+            : [];
+    } catch {
+        return [];
+    }
+};
+
 export class GenericGrid implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private notifyOutputChanged: () => void;
 
@@ -35,8 +50,7 @@ export class GenericGrid implements ComponentFramework.ReactControl<IInputs, IOu
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
         const isSortable = context.parameters.isSortable.raw === "1";
-        const columnHeadersRaw = context.parameters.columnHeaders.raw ?? "[]";
-        const columns = JSON.parse(columnHeadersRaw) as string[];
+        const columns = getColumnHeaders(context.parameters.columnHeaders.raw);
         const pageSize = context.parameters.pageSize.raw ?? 0;
         const data = context.parameters.data.raw ?? "[]";
         return React.createElement(
