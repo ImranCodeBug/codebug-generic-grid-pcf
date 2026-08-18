@@ -13,6 +13,7 @@ interface IMainContainerComponentProps {
   columns: string[];
   columnTypes: string[];
   isSortable: boolean;
+  isSearchEnabled: boolean;
   pageSize: number;
 }
 
@@ -71,7 +72,7 @@ const getSortValue = (row: IGridRow, columnIndex: number): string | number | boo
   return typeof cellValue === "number" || typeof cellValue === "boolean" ? cellValue : getCellText(cellValue);
 };
 
-const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = ({ crmUrl, data, columns, columnTypes, isSortable, pageSize }) => {
+const MainContainerComponent: React.FunctionComponent<IMainContainerComponentProps> = ({ crmUrl, data, columns, columnTypes, isSortable, isSearchEnabled, pageSize }) => {
   const gridData = React.useMemo(() => createGridRows(data, columnTypes, columns.length), [data, columnTypes, columns.length]);
 
   const imageColumnIndex = React.useMemo(() => {
