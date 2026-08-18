@@ -97,17 +97,28 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
   const [columnWidths, setColumnWidths] = React.useState<number[]>(() => getInitialColumnWidths(columns.length, imageColumnIndex));
   const [sortState, setSortState] = React.useState<{ columnIndex: number; direction: TSortDirection } | null>(null);
   const [currentPage, setCurrentPage] = React.useState<number>(1);
+  const [searchText, setSearchText] = React.useState<string>("");
 
   React.useEffect(() => {
     setColumnWidths(getInitialColumnWidths(columns.length, imageColumnIndex));
   }, [columns.length, imageColumnIndex]);
 
-  const sortedRows = React.useMemo(() => {
-    if (!sortState) {
+  const filteredRows = React.useMemo(() => {
+    const normalizedSearchText = searchText.trim().toLowerCase();
+
+    if (normalizedSearchText.length === 0) {
       return gridData;
     }
 
-    const sortedRows = [...gridData].sort((leftRow, rightRow) => {
+    return gridData.filter((row) => row.some((cellValue) => getCellText(cellValue).toLowerCase().includes(normalizedSearchText)));
+  }, [gridData, searchText]);
+
+  const sortedRows = React.useMemo(() => {
+    if (!sortState) {
+      return filteredRows;
+    }
+
+    const sortedRows = [...filteredRows].sort((leftRow, rightRow) => {
       const leftValue = getSortValue(leftRow, sortState.columnIndex);
       const rightValue = getSortValue(rightRow, sortState.columnIndex);
 
@@ -119,7 +130,13 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
     });
 
     return sortState.direction === "ascending" ? sortedRows : sortedRows.reverse();
-  }, [gridData, sortState]);
+  }, [filteredRows, sortState]);
+
+  const handleSearchTextChange = (nextSearchText: string): void => {
+    setSearchText(nextSearchText);
+    setSortState(null);
+    setCurrentPage(1);
+  };
 
   const isPagingEnabled = pageSize > 0;
   const totalPages = isPagingEnabled ? Math.max(1, Math.ceil(sortedRows.length / pageSize)) : 1;
@@ -230,7 +247,7 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
   return (
     <div className="cg-grid" ref={gridRef}>
       <div className="cg-grid__toolbar">
-        <SearchComponent isSearchEnabled={isSearchEnabled} />
+        <SearchComponent isSearchEnabled={isSearchEnabled} searchText={searchText} onSearchTextChange={handleSearchTextChange} />
       </div>
       <Table aria-label="Dynamics style subgrid" className="cg-grid__table">
         <TableHeaderComponent
