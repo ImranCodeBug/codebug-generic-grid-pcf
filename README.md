@@ -26,6 +26,7 @@ Codebug Pai Grid is a virtual Power Apps Component Framework (PCF) control that 
 | `columnHeaders` | Required input `SingleLine.Text` property | JSON string array of headings. Its length controls the number of visible values from each data object. Example: `["Picture", "Name", "Email"]`. |
 | `cellTypes` | Required input `SingleLine.Text` property | JSON string array of cell types. Each entry applies to the value at the same index as its header. Type names are trimmed and case-insensitive. |
 | `isSortable` | Optional enum input: `No` (`0`) or `Yes` (`1`) | Enables or disables header-click sorting. |
+| `isSearchEnabled` | Optional enum input: `No` (`0`) or `Yes` (`1`) | Enables or disables search functionality. When enabled the functionality searches for matching chars in all visible columns. |
 | `pageSize` | Optional `Whole.None` input, default `0` | Maximum rows per page. `0` means paging is disabled and all rows are rendered. |
 
 The header and type arrays must align with the JSON property order. For example:
