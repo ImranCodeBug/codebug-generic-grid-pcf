@@ -4,6 +4,7 @@ import { isImageCell } from "./CellGuards";
 import { IGridRow, TSortDirection } from "./CellModels";
 import { createCellForType, getCellText } from "./CellRenderingService";
 import PaginationComponent from "./PaginationComponent";
+import SearchComponent from "./SearchComponent";
 import TableBodyComponent from "./TableBodyComponent";
 import TableHeaderComponent from "./TableHeaderComponent";
 
@@ -228,6 +229,9 @@ const MainContainerComponent: React.FunctionComponent<IMainContainerComponentPro
 
   return (
     <div className="cg-grid" ref={gridRef}>
+      <div className="cg-grid__toolbar">
+        <SearchComponent isSearchEnabled={isSearchEnabled} />
+      </div>
       <Table aria-label="Dynamics style subgrid" className="cg-grid__table">
         <TableHeaderComponent
           columns={columns}
