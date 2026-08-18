@@ -26,6 +26,10 @@
       <value name="No" display-name-key="No" description-key="Not sortable.">0</value>
       <value name="Yes" display-name-key="Yes" description-key="Sortable.">1</value>
     </property>
+    <property name="isSearchEnabled" display-name-key="Search setting" description-key="Defines if the table is searchable"  of-type="Enum" usage="input" required="false" >
+      <value name="No" display-name-key="No" description-key="Not searchable.">0</value>
+      <value name="Yes" display-name-key="Yes" description-key="Searchable.">1</value>
+    </property>
     <property name="pageSize" display-name-key="Page Size" description-key="Defines the number of rows per page in the table. Default as 0 as in no paging" of-type="Whole.None" default-value="0" usage="input" required="false" />
 
     <!--
